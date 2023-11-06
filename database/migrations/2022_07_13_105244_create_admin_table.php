@@ -18,7 +18,7 @@ class CreateAdminTable extends Migration
             $table->text('username');
             $table->text('password');
             $table->integer('level');
-            $table->timestamp('create_admin')->useCurrent();
+            $table->timestamps();
         });
     }
 

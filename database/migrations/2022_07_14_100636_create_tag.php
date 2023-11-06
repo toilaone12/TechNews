@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSocial extends Migration
+class CreateTag extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateSocial extends Migration
      */
     public function up()
     {
-        Schema::create('social', function (Blueprint $table) {
-            $table->increments('id_social');
-            $table->text('name_social');
-            $table->text('email_social');
-            $table->text('status');
-            $table->text('facebook_id');
+        Schema::create('tag', function (Blueprint $table) {
+            $table->increments('id_tag');
+            $table->integer('id_new');
+            $table->text('title_tag');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateSocial extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('social');
+        Schema::dropIfExists('slide');
     }
 }

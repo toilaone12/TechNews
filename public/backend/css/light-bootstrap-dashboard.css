@@ -76,7 +76,7 @@ td,
 button.close {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Varela Round', sans-serif;
     font-weight: 400;
 }
 
@@ -387,7 +387,7 @@ body>.navbar-collapse .logo p {
     margin: 10px 10px;
     color: #FFFFFF;
     line-height: 20px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .sidebar .logo .simple-text,
@@ -448,7 +448,7 @@ body>.navbar-collapse .nav li .nav-link p {
     line-height: 31px;
     font-size: 12px;
     font-weight: 600;
-    text-transform: uppercase;
+    text-transform: capitalize;
     display: inline-flex;
 }
 
@@ -530,7 +530,7 @@ body>.navbar-collapse .logo p {
     margin: 10px 10px;
     color: #FFFFFF;
     line-height: 20px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .sidebar .logo .simple-text,

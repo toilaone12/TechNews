@@ -15,12 +15,8 @@ class CreateUser extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->increments('id_user');
-            $table->text('image_user');
             $table->text('name_user');
-            $table->string('sex_user',4);
-            $table->string('phone_user',10);
             $table->text('email_user');
-            $table->text('address_user');
             $table->text('password_user');
             $table->timestamps();
         });

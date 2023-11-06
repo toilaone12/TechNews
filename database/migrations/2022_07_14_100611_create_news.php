@@ -15,13 +15,14 @@ class CreateNews extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->increments('id_news');
-            $table->integer('id_type');
             $table->text('image_news');
-            $table->text('name_news');
+            $table->text('title_news');
+            $table->text('slug_news');
             $table->text('summary_news');
             $table->text('content_news');
-            $table->integer('evaluate_news');
-            $table->integer('views_news');
+            $table->integer('number_comments');
+            $table->integer('number_views');
+            $table->tinyInteger('is_hot');
             $table->timestamps();
         });
     }

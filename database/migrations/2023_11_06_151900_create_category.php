@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReplies extends Migration
+class CreateCategory extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateReplies extends Migration
      */
     public function up()
     {
-        Schema::create('replies', function (Blueprint $table) {
-            $table->increments('id_reply');
-            $table->integer('id_news');
-            $table->integer('id_comment');
-            $table->text('name_user');
-            $table->text('replies');
+        Schema::create('category', function (Blueprint $table) {
+            $table->increments('id_category');
+            $table->text('name_category');
+            $table->integer('id_parent');
+            $table->string('slug_category');
+            $table->tinyInteger('order_no');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateReplies extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('replies');
+        Schema::dropIfExists('category');
     }
 }

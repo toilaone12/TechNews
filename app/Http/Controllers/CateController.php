@@ -8,15 +8,17 @@ use function Ramsey\Uuid\v1;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Console\Requests;
+use App\Models\Category;
+
 session_start();
 
 class CateController extends Controller
 {
     //
     public function listCate(){
-        $list_cate = DB::table("category")->get();
-        $manager_cate = view('admin.list_cate')->with('list_cate',$list_cate); // tra view dang sql
-        return view('admin_layout')->with('admin.list_cate',$manager_cate); 
+        $list = Category::all();
+        $title = 'Danh sách danh mục';
+        return view('category.list',compact('list','title')); 
     }
     public function insertCate(){
         

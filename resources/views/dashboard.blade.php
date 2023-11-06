@@ -21,128 +21,25 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Light Bootstrap Dashboard - Free Bootstrap 4 Admin Dashboard by Creative Tim</title>
+    <title>{{$title}}</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- CSS Files -->
-    <link href="{{asset('public/backend/css/bootstrap.min.css')}}" rel="stylesheet" />
-    <link href="{{asset('public/backend/css/light-bootstrap-dashboard.css')}}?v=2.0.0 " rel="stylesheet" />
+    <link href="{{asset('backend/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('backend/css/light-bootstrap-dashboard.css')}}?v=2.0.0 " rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="{{asset('public/backend/css/demo.css')}}" rel="stylesheet" />
-    <link href="{{asset('public/backend/fonts/fontawesome-free-6.1.1-web/css/all.css')}}" rel="stylesheet" />
+    <link href="{{asset('backend/css/demo.css')}}" rel="stylesheet" />
+    <link href="{{asset('backend/fonts/fontawesome-free-6.1.1-web/css/all.css')}}" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 </head>
 <?php
     use Illuminate\Support\Facades\Session;
 ?>
 <body>
-    <style>
-        .cate-block,
-        .cate-block-1,
-        .cate-block-2,
-        .cate-block-3{
-            display: block !important;
-            width: 100%;
-            padding-left: 10px;
-            animation: transitionOut 1s;
-        }
-        .cate-none,
-        .cate-none-1,
-        .cate-none-2,
-        .cate-none-3{
-            display: none;
-            /* animation: transitionIn 1s; */
-        }
-        .sub-cate{
-            list-style: none;
-            color: #FFFFFF;
-            margin: 5px 15px;
-            opacity: .86;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-        }
-        .sub-cate--title{
-            margin-left: 16px;
-            color: #FFFFFF;
-            line-height: 31px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            display: inline-flex;
-        }
-        .show-search{
-            border-width: 2px;
-            background-color: transparent;
-            font-weight: 400;
-            opacity: 0.8;
-            padding: 8px 12px;
-            border: 1px solid #3472F7;
-            border-radius: 5px;
-        }
-        .form-radius{
-            background-color: #FFFFFF;
-            border: 1px solid #E3E3E3;
-            width: 47%;
-            border-radius: 4px;
-            color: #565656;
-            padding: 8px 12px;
-            height: 40px;
-            -webkit-box-shadow: none;
-            box-shadow: none;
-        }
-        .search-none{
-            position: absolute;
-            z-index: 100;
-            width: 30%;
-            top: 50px;
-            left: 190px;
-            display: none;
-            animation: searchOut 1s;
-        }
-        .search-none::after{
-            content: "";
-            position: absolute;
-            top: -18px;
-            width: 100%;
-            height: 30px;
-            background-color: transparent;
-        }
-        .search-none::before{
-            content: "";
-            position: absolute;
-            top: 30px;
-            width: 100%;
-            height: 100px;
-            background-color:transparent;
-        }
-        .hover:hover .search-none{
-            display: flex;
-        }
-        .border-none{
-            outline-color: transparent;
-        }
-        @keyframes transitionOut{
-            from{
-                opacity: 0;
-                transform: translateY(-10px);
-            }to{
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes searchOut{
-            from{
-                opacity: 0;
-                transform: scale(0);
-            }to{
-                opacity: 1;
-                transform: scale(10deg);
-            }
-        }
-    </style>
     <div class="wrapper">
         <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
             <!--
@@ -153,7 +50,7 @@
             <div class="sidebar-wrapper">
                 <div class="logo">
                     <a href="#" class="simple-text" style="display: flex;">
-                        <img style="width: 30%; margin-right:10px;" src="{{asset('public/frontend/img/logo.png')}}" alt="">
+                        <img style="width: 30%; margin-right:10px;" src="{{asset('frontend/img/logo.png')}}" alt="">
                         <span style="text-transform:capitalize; font-size:25px;">TechNews</span> 
                     </a>
                 </div>
@@ -161,126 +58,74 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="dashboard.html">
                             <i class="nc-icon nc-chart-pie-35"></i>
-                            <p>Dashboard</p>
+                            <p>Trang chủ</p>
                         </a>
                     </li>
                     <li>
                         <a class="nav-link"  onclick="myToggle()" style="cursor: pointer;">
                             <i class="fa-solid fa-list-alt"></i>
-                            <p>Category</p>
+                            <p>Danh mục</p>
                         </a>
                         <ul class="cate-none" id="sub-cate--toggle">
                             <li class="sub-cate">
                                 <i class="fa-solid fa-list" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{URL::to('/list-cate')}}">Category List</a>
+                                <a class="sub-cate--title" href="{{route('category.list')}}">Danh sách</a>
                             </li>
-                            <?php
-                                $level = Session::get('level');
-                                if($level == 1){
-                            ?>
+
                             <li class="sub-cate">
                                 <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{URL::to('/insert-cate')}}">Insert Category</a>
+                                <a class="sub-cate--title" href="{{route('category.insert')}}">Thêm</a>
                             </li>
-                            <?php
-                                }else{
-
-                                }
-                            ?>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link"  onclick="myToggle1()" style="cursor: pointer;">
-                            <i class="fa-solid fa-copyright"></i>
-                            <p>Type of Category</p>
-                        </a>
-                        <ul class="cate-none-1" id="sub-cate--toggle1">
-                            <li class="sub-cate">
-                                <i class="fa-solid fa-list" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{URL::to('/list-type')}}">Type of Category List</a>
-                            </li>
-                            <?php
-                                $level = Session::get('level');
-                                if($level == 1){
-                            ?>
-                            <li class="sub-cate">
-                                <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{URL::to('/insert-type')}}">Insert Type</a>
-                            </li>
-                            <?php
-                                }else{
-
-                                }
-                            ?>
+                            
                         </ul>
                     </li>
                     <li>
                         <a class="nav-link"  onclick="myToggle2()" style="cursor: pointer;">
                             <i class="fa-solid fa-newspaper"></i>
-                            <p>News Details</p>
+                            <p>Tin tức</p>
                         </a>
                         <ul class="cate-none-2" id="sub-cate--toggle2">
                             <li class="sub-cate">
                                 <i class="fa-solid fa-list" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{URL::to('/list-news')}}">News List</a>
+                                <a class="sub-cate--title" href="{{route('new.list')}}">Danh sách</a>
                             </li>
-                            <?php
-                                $level = Session::get('level');
-                                if($level == 1){
-                            ?>
+
                             <li class="sub-cate">
                                 <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{URL::to('/insert-news')}}">Insert News</a>
+                                <a class="sub-cate--title" href="{{route('new.insert')}}">Thêm</a>
                             </li>
-                            <?php
-                                }else{
-
-                                }
-                            ?>
+                            
                         </ul>
                     </li>
                     <li>
                         <a class="nav-link"  onclick="myToggle3()" style="cursor: pointer;">
                             <i class="fa-brands fa-adversal"></i>
-                            <p>Slide</p>
+                            <p>Quảng cáo</p>
                         </a>
                         <ul class="cate-none-3" id="sub-cate--toggle3">
                             <li class="sub-cate">
                                 <i class="fa-solid fa-list" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{URL::to('/list-slide')}}">Slide List</a>
+                                <a class="sub-cate--title" href="">Slide List</a>
                             </li>
-                            <?php
-                                $level = Session::get('level');
-                                if($level == 1){
-                            ?>
+
                             <li class="sub-cate">
                                 <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{URL::to('/insert-slide')}}">Insert Slide</a>
+                                <a class="sub-cate--title" href="">Insert Slide</a>
                             </li>
-                            <?php
-                                }else{
-
-                                }
-                            ?>
+                            
                         </ul>
                     </li>
                     <li>
-                        <a class="nav-link" href="./maps.html">
-                            <i class="nc-icon nc-pin-3"></i>
-                            <p>Maps</p>
+                        <a class="nav-link"  onclick="myToggle4()" style="cursor: pointer;">
+                            <i class="fa-solid fa-comment"></i>
+                            <p>Bình luận</p>
                         </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="./notifications.html">
-                            <i class="nc-icon nc-bell-55"></i>
-                            <p>Notifications</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active active-pro">
-                        <a class="nav-link active" href="upgrade.html">
-                            <i class="nc-icon nc-alien-33"></i>
-                            <p>Upgrade to PRO</p>
-                        </a>
+                        <ul class="cate-none-4" id="sub-cate--toggle4">
+                            <li class="sub-cate">
+                                <i class="fa-solid fa-list" style="font-size: 20px"></i>
+                                <a class="sub-cate--title" href="">Danh sách</a>
+                            </li>    
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -322,13 +167,13 @@
                         </ul>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{URL::to('/logout')}}">
-                                    <span class="no-icon">Log out: <?php
-                                        $username = Session::get('username');
-                                        if(isset($username)){
-                                            echo $username;
-                                        }
-                                    ?></span>
+                                <a class="nav-link" href="{{route('admin.logout')}}">
+                                    <span class="no-icon">Cài đặt</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('admin.logout')}}">
+                                    <span class="no-icon">Đăng xuất</span>
                                 </a>
                             </li>
                         </ul>
@@ -336,7 +181,7 @@
                 </div>
             </nav>
             <!-- End Navbar -->
-            @yield('dashboard')
+            @yield('content')
             <footer class="footer">
                 <div class="container-fluid">
                     <nav>
@@ -410,22 +255,22 @@
 
             <li class="active">
                 <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="../assets/img/sidebar-1.jpg" alt="" />
+                
                 </a>
             </li>
             <li>
                 <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="../assets/img/sidebar-3.jpg" alt="" />
+                
                 </a>
             </li>
             <li>
                 <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="..//assets/img/sidebar-4.jpg" alt="" />
+                
                 </a>
             </li>
             <li>
                 <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="../assets/img/sidebar-5.jpg" alt="" />
+                
                 </a>
             </li>
 
@@ -454,23 +299,10 @@
 </div>
 
 </body>
-<!--   Core JS Files   -->
-<script src="{{asset('public/backend/js/core/jquery.3.2.1.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('public/backend/js/core/popper.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('public/backend/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
-<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script src="{{asset('public/backend/js/plugins/bootstrap-switch.js')}}"></script>
-<!--  Google Maps Plugin    -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-<!--  Chartist Plugin  -->
-<script src="{{asset('public/backend/js/plugins/chartist.min.js')}}"></script>
-<!--  Notifications Plugin    -->
-<script src="{{asset('public/backend/js/plugins/bootstrap-notify.js')}}"></script>
-<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
-<script src="{{asset('public/backend/js/light-bootstrap-dashboard.js')}}?v=2.0.0 " type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
-<script src="{{asset('public/backend/js/demo.js')}}"></script>
-<script src="{{asset('public/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('backend/js/demo.js')}}"></script>
+<script src="{{asset('ckeditor/ckeditor.js')}}"></script>
 <!-- @Html.TextAreaFor(model=>model.CourseDescription, new { @id = "editor"}) -->
 <script type="text/javascript">
     CKEDITOR.replace('ckeditor');
@@ -486,10 +318,6 @@
     CKEDITOR.config.ForceSimpleAmpersand = true;
 
     $(document).ready(function() {
-        // Javascript method's body can be found in assets/js/demos.js')}}
-        demo.initDashboardPageCharts();
-
-        demo.showNotification();
 
     });
     function myToggle(){
@@ -507,6 +335,10 @@
     function myToggle3(){
         let type = document.getElementById('sub-cate--toggle3');
         type.classList.toggle('cate-block-3');
+    }
+    function myToggle4(){
+        let type = document.getElementById('sub-cate--toggle4');
+        type.classList.toggle('cate-block-4');
     }
 </script>
 

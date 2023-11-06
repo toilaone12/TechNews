@@ -18,6 +18,7 @@ class CreateComment extends Migration
             $table->integer('id_user');
             $table->integer('id_news');
             $table->text('comment');
+            $table->integer('id_reply');
             $table->timestamps();
         });
     }
