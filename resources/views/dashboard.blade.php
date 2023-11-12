@@ -27,7 +27,8 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- CSS Files -->
-    <link href="{{asset('backend/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
     <link href="{{asset('backend/css/light-bootstrap-dashboard.css')}}?v=2.0.0 " rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{asset('backend/css/demo.css')}}" rel="stylesheet" />
@@ -35,6 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <?php
     use Illuminate\Support\Facades\Session;
@@ -55,14 +57,14 @@
                     </a>
                 </div>
                 <ul class="nav">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="dashboard.html">
                             <i class="nc-icon nc-chart-pie-35"></i>
                             <p>Trang chủ</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link"  onclick="myToggle()" style="cursor: pointer;">
+                        <a class="nav-link {{request()->is('admin/category/list') || request()->is('admin/category/insert') ? 'active' : ''}}" onclick="myToggle()" style="cursor: pointer;">
                             <i class="fa-solid fa-list-alt"></i>
                             <p>Danh mục</p>
                         </a>
@@ -80,37 +82,37 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="nav-link"  onclick="myToggle2()" style="cursor: pointer;">
+                        <a class="nav-link {{request()->is('admin/news/list') || request()->is('admin/news/insert') ? 'active' : ''}}" onclick="myToggle2()" style="cursor: pointer;">
                             <i class="fa-solid fa-newspaper"></i>
                             <p>Tin tức</p>
                         </a>
                         <ul class="cate-none-2" id="sub-cate--toggle2">
                             <li class="sub-cate">
                                 <i class="fa-solid fa-list" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{route('new.list')}}">Danh sách</a>
+                                <a class="sub-cate--title" href="{{route('news.list')}}">Danh sách</a>
                             </li>
 
                             <li class="sub-cate">
                                 <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="{{route('new.insert')}}">Thêm</a>
+                                <a class="sub-cate--title" href="{{route('news.insert')}}">Thêm</a>
                             </li>
                             
                         </ul>
                     </li>
                     <li>
                         <a class="nav-link"  onclick="myToggle3()" style="cursor: pointer;">
-                            <i class="fa-brands fa-adversal"></i>
-                            <p>Quảng cáo</p>
+                            <i class="fa-solid fa-tags"></i>
+                            <p>Từ khóa</p>
                         </a>
                         <ul class="cate-none-3" id="sub-cate--toggle3">
                             <li class="sub-cate">
                                 <i class="fa-solid fa-list" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="">Slide List</a>
+                                <a class="sub-cate--title" href="">Danh sách</a>
                             </li>
 
                             <li class="sub-cate">
                                 <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="">Insert Slide</a>
+                                <a class="sub-cate--title" href="">Thêm</a>
                             </li>
                             
                         </ul>
@@ -220,93 +222,19 @@
         </div>
     </div>
       <!-- -->
-    <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-        <a href="#" data-toggle="dropdown">
-            <i class="fa fa-cog fa-2x"> </i>
-        </a>
 
-        <ul class="dropdown-menu">
-			<li class="header-title"> Sidebar Style</li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger">
-                    <p>Background Image</p>
-                    <label class="switch">
-                        <input type="checkbox" data-toggle="switch" checked="" data-on-color="primary" data-off-color="primary"><span class="toggle"></span>
-                    </label>
-                    <div class="clearfix"></div>
-                </a>
-            </li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger background-color">
-                    <p>Filters</p>
-                    <div class="pull-right">
-                        <span class="badge filter badge-black" data-color="black"></span>
-                        <span class="badge filter badge-azure" data-color="azure"></span>
-                        <span class="badge filter badge-green" data-color="green"></span>
-                        <span class="badge filter badge-orange" data-color="orange"></span>
-                        <span class="badge filter badge-red" data-color="red"></span>
-                        <span class="badge filter badge-purple active" data-color="purple"></span>
-                    </div>
-                    <div class="clearfix"></div>
-                </a>
-            </li>
-            <li class="header-title">Sidebar Images</li>
-
-            <li class="active">
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                
-                </a>
-            </li>
-
-            <li class="button-container">
-                <div class="">
-                    <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard" target="_blank" class="btn btn-info btn-block btn-fill">Download, it's free!</a>
-                </div>
-            </li>
-
-            <li class="header-title pro-title text-center">Want more components?</li>
-
-            <li class="button-container">
-                <div class="">
-                    <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard-pro" target="_blank" class="btn btn-warning btn-block btn-fill">Get The PRO Version!</a>
-                </div>
-            </li>
-
-            <li class="header-title" id="sharrreTitle">Thank you for sharing!</li>
-
-            <li class="button-container">
-				<button id="twitter" class="btn btn-social btn-outline btn-twitter btn-round sharrre"><i class="fa fa-twitter"></i> · 256</button>
-                <button id="facebook" class="btn btn-social btn-outline btn-facebook btn-round sharrre"><i class="fa fa-facebook-square"></i> · 426</button>
-            </li>
-        </ul>
-    </div>
 </div>
 
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 <script src="{{asset('backend/js/demo.js')}}"></script>
+<script src="{{asset('backend/js/main.js')}}"></script>
 <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
 <!-- @Html.TextAreaFor(model=>model.CourseDescription, new { @id = "editor"}) -->
 <script type="text/javascript">
     CKEDITOR.replace('ckeditor');
-    CKEDITOR.replace('ckeditor1');
     CKEDITOR.config.pasteFormWordPromptCleanup = true;
     CKEDITOR.config.pasteFormWordRemoveFontStyles = false;
     CKEDITOR.config.pasteFormWordRemoveStyles = false;
@@ -318,7 +246,6 @@
     CKEDITOR.config.ForceSimpleAmpersand = true;
 
     $(document).ready(function() {
-
     });
     function myToggle(){
         let cate = document.getElementById('sub-cate--toggle');

@@ -68,21 +68,24 @@ Route::prefix('admin')->group(function(){
     Route::prefix('category')->group(function(){
         Route::get('/list',[CateController::class,'listCate'])->name('category.list');
         Route::get('/insert',[CateController::class,'insertCate'])->name('category.insert');
-        Route::get('/edit-form/{id_cate}',[CateController::class,'formEditCate'])->name('category.edit');
-        Route::get('/delete-form/{id_cate}',[CateController::class,'deleteCate'])->name('category.delete');
+        Route::get('/edit-form',[CateController::class,'formEditCate'])->name('category.edit');
+        Route::get('/delete',[CateController::class,'delete'])->name('category.delete');
         Route::post('/save',[CateController::class,'saveCate'])->name('category.save');
-        Route::post('/edit/{id_cate}',[CateController::class,'editCate'])->name('category.change');
+        Route::post('/edit',[CateController::class,'editCate'])->name('category.change');
     });
 
     //News
-    Route::get('/list-news',[NewsController::class,'listNews'])->name('new.list');
-    Route::get('/insert-news',[NewsController::class,'insertFormNews'])->name('new.insert');
-    Route::get('/edit-form-news/{id_news}',[NewsController::class,'editFormNews'])->name('new.edit');
-    Route::get('/delete-news/{id_news}',[NewsController::class,'deleteNews'])->name('new.delete');
-    Route::get('/details-news/{id_news}',[NewsController::class,'detailNews'])->name('new.detail');
+    Route::prefix('news')->group(function(){
+        Route::get('/list',[NewsController::class,'listNews'])->name('news.list');
+        Route::get('/insert',[NewsController::class,'insertFormNews'])->name('news.insert');
+        Route::get('/edit',[NewsController::class,'editFormNews'])->name('news.edit');
+        Route::get('/delete',[NewsController::class,'deleteNews'])->name('news.delete');
+        Route::post('/save',[NewsController::class,'insertNews'])->name('news.save');
+        Route::post('/change',[NewsController::class,'editNews'])->name('news.change');
+        Route::get('/{slug}',[NewsController::class,'detailNewsAdmin'])->name('news.detailAdmin');
+    });
+    // Route::get('/details-news/{id_news}',[NewsController::class,'detailNews'])->name('news.detail');
     Route::get('/active-news/{level_news}/{id_type}/{id_news}',[NewsController::class,'changeDisplayNews'])->name('new.active');
-    Route::post('/save-news',[NewsController::class,'insertNews'])->name('new.save');
-    Route::post('/edit-news/{id_news}',[NewsController::class,'editNews'])->name('new.edit');
     //Search
     // Route::get('/search-cate',[SearchController::class,'searchForm']);
     Route::post('/form-search',[SearchController::class,'searchForm']);

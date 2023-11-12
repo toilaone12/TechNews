@@ -9,52 +9,81 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Console\Requests;
 use App\Models\Category;
-
-session_start();
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class CateController extends Controller
 {
     //
     public function listCate(){
         $list = Category::all();
+        $parents = Category::where('id_parent',0)->get();
         $title = 'Danh sách danh mục';
-        return view('category.list',compact('list','title')); 
+        return view('category.list',compact('list','title','parents')); 
     }
     public function insertCate(){
-        
-        return view('admin.insert_cate');
+        // dd(request()->is('admin/category/list') || request()->is('admin/category/insert') ? 'active' : '');
+        $parents = Category::where('id_parent',0)->get();
+        $title = 'Thêm danh mục';
+        return view('category.insert',compact('parents','title')); 
     }
     public function saveCate(Request $request){
-        $data = array();
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
-        $time = date('Y-m-d H:i:s');
-        $data['name_cate'] = $request->name_cate; // data[]: trong la ten cua cot trong mysql
-        $data['create_cate'] = $time;
-        $data['created_at'] = $time;
-        $data['updated_at'] = $time;
-        DB::table('category')->insert($data);
-        Session::put("message","Insert name ".$request->name_cate." success");
-        return Redirect::to('/list-cate');
+        $data = $request->all();
+        Validator::make($data,[
+            'name_cate' => ['required','regex:/^[a-zA-ZÀ-ỹ\s]+$/u'], //u: ho tro Unicode \s ho tro dau cach
+            'id_parent' => ['required'],
+        ],[
+            'name_cate.required' => 'Bắt buộc phải có',
+            'name_cate.regex' => 'Bắt buộc phải là chữ cái',
+            'id_parent.required' => 'Bắt buộc phải có',
+        ])->validate();
+        $insert = Category::create([
+            'name_category' => $data['name_cate'],
+            'id_parent' => $data['id_parent'],
+            'slug_category' => Str::slug($data['name_cate'],'-'),
+        ]);
+        if($insert){
+            return redirect()->route('category.list')->with('message','Thêm thành công!');
+        }else{
+            return redirect()->route('category.list')->with('message','Lỗi truy vấn!');
+        }
     }
-    public function formEditCate($id_cate){
-        $edit_cate = DB::table("category")->where('id_cate',$id_cate)->get();
-        $manager_cate = view('admin.edit_cate')->with('edit_cate',$edit_cate); // tra view dang sql
-        return view('admin_layout')->with('admin.edit_cate',$manager_cate); 
+    public function formEditCate(Request $request){
+        $id = $request->get('id');
+        $title = 'Sửa danh mục';
+        $category = Category::find($id);
+        $parents = Category::where('id_parent',0)->get();
+        return view('category.edit',compact('category','title','parents'));
     }
-    public function editCate($id_cate,Request $request){
-        $data = array();
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
-        $time = date('Y-m-d H:i:s');
-        $data['name_cate'] = $request->name_cate; // data[]: trong la ten cua cot trong mysql
-        $data['updated_at'] = $time;
-        DB::table('category')->where('id_cate',$id_cate)->update($data);
-        Session::put("message","Update name ".$request->name_cate." success");
-        return Redirect::to('/list-cate');
+    public function editCate(Request $request){
+        $data = $request->all();
+        Validator::make($data,[
+            'name' => ['required','regex:/^[a-zA-ZÀ-ỹ\s]+$/u'], //u: ho tro Unicode \s ho tro dau cach
+            'id_parent' => ['required'],
+        ],[
+            'name.required' => 'Bắt buộc phải có',
+            'name.regex' => 'Bắt buộc phải là chữ cái',
+            'id_parent.required' => 'Bắt buộc phải có',
+        ])->validate();
+        $category = Category::find($data['id']);
+        $category->name_category = $data['name'];
+        $category->slug_category = Str::slug($data['name'],'-');
+        $category->id_parent = $data['id_parent'];
+        $update = $category->save();
+        if($update){
+            return redirect()->route('category.list')->with('message','Sửa thành công!');
+        }else{
+            return redirect()->route('category.list')->with('message','Lỗi truy vấn!');
+        }
     }
-    public function deleteCate($id_cate,Request $request){
-        DB::table('category')->where('id_cate',$id_cate)->delete();
-        Session::put("message","Delete name ".$request->name_cate." success");
-        return Redirect::to('/list-cate');
+    public function delete(Request $request){
+        $id = $request->get('id');
+        $delete = Category::find($id)->delete();
+        if($delete){
+            return redirect()->route('category.list')->with('message','Xóa thành công!');
+        }else{
+            return redirect()->route('category.list')->with('message','Lỗi truy vấn!');
+        }
     }
     //End Admin
     //Start Pages

@@ -8,8 +8,13 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\UploadedFile;
 use App\Console\Requests;
+use App\Models\Category;
+use App\Models\News;
+use App\Models\Tag;
 use Dflydev\DotAccessData\Data;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 session_start();
 
@@ -17,211 +22,141 @@ class NewsController extends Controller
 {
     //
     public function insertFormNews(){
-        $list_type_of_cate = DB::table('type_of_cate')->get();
-        $manager_type = view('admin.insert_news')->with('list_type',$list_type_of_cate);
-        return view('admin_layout')->with('admin.insert_news',$manager_type);
+        $categorys = Category::all();
+        $tags = Tag::all();
+        $title = 'Thêm tin tức';
+        return view('news.insert',compact('title','categorys','tags')); 
     }
     public function insertNews(Request $request){
-        $image = $request->file('image_news');
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
-        $date = date("Y-m-d H:i:s");
-        $data = array();
-        if(($image)){
-            $count = $request->level_news;
-            $type = $request->name_type;
-            $get_name_image = $image->getClientOriginalName();
-            $current_name_image = current(explode('.',$get_name_image)); // current: lay thang dau tien cua mang khi dc cat boi explode
-            $new_image = $current_name_image.'.'.$image->getClientOriginalExtension(); // duoi file(png,jpg,webp,...)
-            $link_image = "http://192.168.55.105/example-app/public/upload_image/news/".$new_image;
-            $image->move('public/upload_image/news',$new_image); // di chuyen hinh anh
-            $data['image_news'] = $link_image;
-            $data['id_type'] = $request->name_type;
-            $data['name_news'] = $request->name_news;
-            $data['summary_news'] = $request->summary_news;
-            $data['content_news'] = $request->content_news;
-            $data['comment_news'] = 0;
-            $data['views_news'] = 0;
-            $data['created_at'] = $date;
-            $data['updated_at'] = $date;
-            $check_level = DB::table("news")->where('level_news','=',$count)->where('id_type',$type)->get();
-            if($count == 1){
-                if($check_level->count() == 0){
-                    $data['level_news'] = $request->level_news;
-                    $insert_news = DB::table('news')->insert($data);
-                    if($insert_news){
-                        Session::put('message',"Insert name news ".$request->name_news." main page!");
-                        return Redirect::to('/list-news');
-                    }else{
-                        Session::put('message',"Insert name news ".$request->name_news." fail!");
-                        return Redirect::to('/list-news');
-                    }
-                }else{
-                    $data['level_news'] = 2;
-                    $insert_news = DB::table('news')->insert($data);
-                    if($insert_news){
-                        Session::put('message',"Insert name news ".$request->name_news." success!");
-                        return Redirect::to('/list-news');
-                    }else{
-                        Session::put('message',"Insert name news ".$request->name_news." fail!");
-                        return Redirect::to('/list-news');
-                    }
-                }
-            }else if($count == 0){
-                if($check_level->count() < 4){
-                    $data['level_news'] = $request->level_news;
-                    $insert_news = DB::table('news')->insert($data);
-                    if($insert_news){
-                        Session::put('message',"Insert name news ".$request->name_news." success!");
-                        return Redirect::to('/list-news');
-                    }else{
-                        Session::put('message',"Insert name news ".$request->name_news." fail!");
-                        return Redirect::to('/list-news');
-                    }
-                }else{
-                    $data['level_news'] = 2;
-                    $insert_news = DB::table('news')->insert($data);
-                    if($insert_news){
-                        Session::put('message',"Insert name news ".$request->name_news." success!");
-                        return Redirect::to('/list-news');
-                    }else{
-                        Session::put('message',"Insert name news ".$request->name_news." fail!");
-                        return Redirect::to('/list-news');
-                    }
-                }
-            }else{
-                $data['level_news'] = 2;
-                $insert_news = DB::table('news')->insert($data);
-                if($insert_news){
-                    Session::put('message',"Insert name news ".$request->name_news." success!");
-                    return Redirect::to('/list-news');
-                }else{
-                    Session::put('message',"Insert name news ".$request->name_news." fail!");
-                    return Redirect::to('/list-news');
-                }
-            }
+        $data = $request->all();
+        Validator::make($data,[
+            'title' => ['required'],
+            'summary' => ['required'],
+            'content' => ['required'],
+            'image' => ['required','image','mimes:jpeg,png,jpg,gif'],
+            'id_category' => ['required']
+        ],[
+            'id_category.required' => 'Bắt buộc phải có danh mục',
+            'title.required' => 'Bắt buộc phải có tiêu đề',
+            'summary.required' => 'Bắt buộc phải có phụ đề',
+            'content.required' => 'Bắt buộc phải có nội dung',
+            'image.required' => 'Bắt buộc phải có ảnh',
+            'image.image' => 'Bắt buộc phải là ảnh',
+            'image.mimes' => 'Bắt buộc phải là định dạng png, jpg, jpeg, gif',
+        ])->validate();
+        $image = $request->file('image');
+        $imageName = pathinfo($image->getClientOriginalName(),PATHINFO_FILENAME);
+        $imageFile = pathinfo($image->getClientOriginalName(),PATHINFO_EXTENSION);
+        $imageNews = '/storage/news/'.$imageName.'-'.date('His').'.'.$imageFile;
+        $image->storeAs('public/news',$imageName.'-'.date('His').'.'.$imageFile);
+        // dd(isset($data['is_hot']) ? $data['is_hot'] : 1);
+        $data = [
+            'id_category' => $data['id_category'],
+            'image_news' => $imageNews,
+            'title_news' =>  $data['title'],
+            'slug_news' => Str::slug($data['title'],'-'),
+            'summary_news' => $data['summary'],
+            'content_news' => $data['content'],
+            'number_comments' => 0,
+            'number_views' => 0,
+            'is_hot' => isset($data['is_hot']) ? $data['is_hot'] : 1,
+            'tag_news' => isset(($data['tag'])) ? json_encode($data['tag']) : ''
+        ];
+        // dd($data);
+        $insert = News::create($data);
+        if($insert){
+            return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
         }else{
-            $link_image = '';
-            $insert_news = DB::table('news')->insert($data);
-            if($insert_news){
-                Session::put('message',"Error");
-                return Redirect::to('/list-news');
-            }else{
-                Session::put('message',"Insert name news ".$request->name_news." fail");
-                return Redirect::to('/list-news');
-            }
-        }      
+            return redirect()->route('news.list')->with('message','<div class="alert alert-error alert-dismissible">Lỗi truy vấn!</div>');
+        }
     }
     public function listNews(){
-        $list_news = DB::table('news')->join('type_of_cate','news.id_type','=','type_of_cate.id_type')->
-        select('news.*','type_of_cate.name_type')->get();
-        $manager_news = view('admin.list_news')->with('list_news',$list_news);
-        return view('admin_layout')->with('admin.list_news',$manager_news);
+        $title = 'Danh sách tin tức';
+        $list = News::all();
+        $categorys = Category::all();
+        $tags = Tag::all();
+        return view('news.list',compact('title','list','categorys','tags'));
     }
-    public function deleteNews($id_news){
-        $delete_news = DB::table("news")->where('id_news',$id_news)->delete();
-        if($delete_news){
-            Session::put('message',"Delete success!");
-            return Redirect::to('/list-news');
+    public function deleteNews(Request $request){
+        $id = $request->get('id');
+        $delete = News::find($id)->delete();
+        if($delete){
+            return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Xoá thành công!</div>');
+        }else{
+            return redirect()->route('news.list')->with('message','<div class="alert alert-error alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
-    public function editFormNews($id_news){
-        $list_news_by_id = DB::table("news")->where("id_news",$id_news)->get();
-        $list_type = DB::table("type_of_cate")->get();
-        return view("admin.edit_news")->with("list_news",$list_news_by_id)->with("list_type",$list_type);
+    public function editFormNews(Request $request){
+        $id = $request->get('id');
+        $title = 'Sửa tin tức';
+        $new = News::find($id);
+        $tags = Tag::all();
+        $categorys = Category::all();
+        return view('news.edit',compact('new','title','categorys','tags'));
     }
-    public function editNews($id_news,Request $request){
-        $select_news = DB::table('news')->where('id_news',$id_news)->get();
-        $views_news = '';
-        $comment_news = '';
-        foreach($select_news as $news){
-            $view_news = $news->views_news;
-            $comment_news = $news->comment_news;
-        }
-        $image = $request->file('image_news');
-        $count = $request->level_news;
-        $type = $request->name_type;
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
-        $date = date("Y-m-d H:i:s");
-        $data = array();
-        $data['id_type'] = $type;
-        $data['name_news'] = $request->name_news;
-        $data['summary_news'] = $request->summary_news;
-        $data['content_news'] = $request->content_news;
-        $data['comment_news'] = $comment_news;
-        $data['views_news'] = $view_news;
-        $data['updated_at'] = $date;
-        $check_level = DB::table("news")->where('level_news','=',$count)->where('id_type',$type)->get();
-        if(($image)){
-            if($count == 1){
-                if($check_level->count() == 0){
-                    $data['level_news'] = $request->level_news;
-                    $update_news = DB::table('news')->where('id_news',$id_news)->update($data);
-                    if($update_news){
-                        Session::put('message',"Update name news ".$request->name_news." main page!");
-                        return Redirect::to('/list-news');
-                    }else{
-                        Session::put('message',"Update name news ".$request->name_news." fail!");
-                        return Redirect::to('/list-news');
-                    }
-                }else{
-                    $data['level_news'] = 2;
-                    $update_news = DB::table('news')->where('id_news',$id_news)->update($data);
-                    if($update_news){
-                        Session::put('message',"Update name news ".$request->name_news." success!");
-                        return Redirect::to('/list-news');
-                    }else{
-                        Session::put('message',"Update name news ".$request->name_news." fail!");
-                        return Redirect::to('/list-news');
-                    }
-                }
-            }else if($count == 0){
-                if($check_level->count() < 4){
-                    $data['level_news'] = $request->level_news;
-                    $update_news = DB::table('news')->where('id_news',$id_news)->update($data);
-                    if($update_news){
-                        Session::put('message',"Update name news ".$request->name_news." success!");
-                        return Redirect::to('/list-news');
-                    }else{
-                        Session::put('message',"Update name news ".$request->name_news." fail!");
-                        return Redirect::to('/list-news');
-                    }
-                }else{
-                    $data['level_news'] = 2;
-                    $update_news = DB::table('news')->where('id_news',$id_news)->update($data);
-                    if($update_news){
-                        Session::put('message',"Update name news ".$request->name_news." success!");
-                        return Redirect::to('/list-news');
-                    }else{
-                        Session::put('message',"Update name news ".$request->name_news." fail!");
-                        return Redirect::to('/list-news');
-                    }
-                }
+    public function editNews(Request $request){
+        $data = $request->all();
+        Validator::make($data,[
+            'title' => ['required'],
+            'summary' => ['required'],
+            'content' => ['required'],
+            'image' => ['image','mimes:jpeg,png,jpg,gif'],
+            'id_category' => ['required']
+        ],[
+            'id_category.required' => 'Bắt buộc phải có danh mục',
+            'title.required' => 'Bắt buộc phải có tiêu đề',
+            'summary.required' => 'Bắt buộc phải có phụ đề',
+            'content.required' => 'Bắt buộc phải có nội dung',
+            'image.image' => 'Bắt buộc phải là ảnh',
+            'image.mimes' => 'Bắt buộc phải là định dạng png, jpg, jpeg, gif',
+        ])->validate();
+        $image = $request->file('image');
+        if($image){
+            if (Storage::disk('public')->exists('news/' . str_replace('http://127.0.0.1:8000/storage/news/','',$data['image_original']))) {
+                Storage::disk('public')->delete('news/' . str_replace('http://127.0.0.1:8000/storage/news/','',$data['image_original']));
+            }
+            $imageName = pathinfo($image->getClientOriginalName(),PATHINFO_FILENAME);
+            $imageFile = pathinfo($image->getClientOriginalName(),PATHINFO_EXTENSION);
+            $imageNews = '/storage/news/'.$imageName.'-'.date('His').'.'.$imageFile;
+            $image->storeAs('public/news',$imageName.'-'.date('His').'.'.$imageFile);
+            // dd($image);
+            $new = News::find($data['id']);
+            $new->image_news = $imageNews;
+            $new->id_category = $data['id_category'];
+            $new->title_news = $data['title'];
+            $new->slug_news = $data['slug'];
+            $new->summary_news = Str::slug($data['title'],'-');
+            $new->content_news = $data['content'];
+            $new->is_hot = isset($data['is_hot']) ? $data['is_hot'] : 1;
+            $new->tag_news = isset(($data['tag'])) ? json_encode($data['tag']) : $new->tag_news;
+            $update = $new->save();
+            if($update){
+                return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Sửa thành công!</div>');
             }else{
-                $data['level_news'] = 2;
-                $update_news = DB::table('news')->where('id_news',$id_news)->update($data);
-                if($update_news){
-                    Session::put('message',"Insert name news ".$request->name_news." success!");
-                    return Redirect::to('/list-news');
-                }else{
-                    Session::put('message',"Insert name news ".$request->name_news." fail!");
-                    return Redirect::to('/list-news');
-                }
+                return redirect()->route('news.list')->with('message','<div class="alert alert-error alert-dismissible">Lỗi truy vấn!</div>');
             }
         }else{
-            $link_image = '';
-            $update_news = DB::table('news')->where('id_news',$id_news)->update($data);
-            if($update_news){
-                Session::put('message',"Error");
-                return Redirect::to('/list-news');
+            $new = News::find($data['id']);
+            $new->id_category = $data['id_category'];
+            $new->title_news = $data['title'];
+            $new->slug_news = Str::slug($data['title'],'-');
+            $new->summary_news = $data['summary'];
+            $new->content_news = $data['content'];
+            $new->is_hot = isset($data['is_hot']) ? $data['is_hot'] : 1;
+            $new->tag_news = isset(($data['tag'])) ? json_encode($data['tag']) : $new->tag_news;
+            $update = $new->save();
+            if($update){
+                return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Sửa thành công!</div>');
             }else{
-                Session::put('message',"Update name news ".$request->name_news." fail!");
-                return Redirect::to('/list-news');
+                return redirect()->route('news.list')->with('message','<div class="alert alert-error alert-dismissible">Lỗi truy vấn!</div>');
             }
-        }  
+        }
     }
-    public function detailNews($id_news){
-        $list_news = DB::table("news")->where('id_news',$id_news)->get();
-        return view('admin.detail_news')->with('list_news',$list_news);
+    public function detailNewsAdmin($slug){
+        $new = News::where('slug_news',$slug)->first();
+        $detail = $new->content_news;
+        $title  = $new->title_news;
+        return view('news.detail',compact('detail','title'));
     }
     //End Admin
     //Start Pages
