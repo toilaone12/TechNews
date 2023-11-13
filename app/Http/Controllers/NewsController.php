@@ -67,7 +67,7 @@ class NewsController extends Controller
         if($insert){
             return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
         }else{
-            return redirect()->route('news.list')->with('message','<div class="alert alert-error alert-dismissible">Lỗi truy vấn!</div>');
+            return redirect()->route('news.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
     public function listNews(){
@@ -83,7 +83,7 @@ class NewsController extends Controller
         if($delete){
             return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Xoá thành công!</div>');
         }else{
-            return redirect()->route('news.list')->with('message','<div class="alert alert-error alert-dismissible">Lỗi truy vấn!</div>');
+            return redirect()->route('news.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
     public function editFormNews(Request $request){
@@ -133,7 +133,7 @@ class NewsController extends Controller
             if($update){
                 return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Sửa thành công!</div>');
             }else{
-                return redirect()->route('news.list')->with('message','<div class="alert alert-error alert-dismissible">Lỗi truy vấn!</div>');
+                return redirect()->route('news.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
             }
         }else{
             $new = News::find($data['id']);
@@ -148,7 +148,7 @@ class NewsController extends Controller
             if($update){
                 return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Sửa thành công!</div>');
             }else{
-                return redirect()->route('news.list')->with('message','<div class="alert alert-error alert-dismissible">Lỗi truy vấn!</div>');
+                return redirect()->route('news.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
             }
         }
     }

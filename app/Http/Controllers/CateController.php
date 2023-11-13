@@ -43,9 +43,9 @@ class CateController extends Controller
             'slug_category' => Str::slug($data['name_cate'],'-'),
         ]);
         if($insert){
-            return redirect()->route('category.list')->with('message','Thêm thành công!');
+            return redirect()->route('category.list')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
         }else{
-            return redirect()->route('category.list')->with('message','Lỗi truy vấn!');
+            return redirect()->route('category.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
     public function formEditCate(Request $request){
@@ -71,18 +71,18 @@ class CateController extends Controller
         $category->id_parent = $data['id_parent'];
         $update = $category->save();
         if($update){
-            return redirect()->route('category.list')->with('message','Sửa thành công!');
+            return redirect()->route('category.list')->with('message','<div class="alert alert-success alert-dismissible">Sửa thành công!</div>');
         }else{
-            return redirect()->route('category.list')->with('message','Lỗi truy vấn!');
+            return redirect()->route('category.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
     public function delete(Request $request){
         $id = $request->get('id');
         $delete = Category::find($id)->delete();
         if($delete){
-            return redirect()->route('category.list')->with('message','Xóa thành công!');
+            return redirect()->route('category.list')->with('message','<div class="alert alert-success alert-dismissible">Xóa thành công!</div>');
         }else{
-            return redirect()->route('category.list')->with('message','Lỗi truy vấn!');
+            return redirect()->route('category.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
     //End Admin

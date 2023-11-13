@@ -8,14 +8,6 @@
                     <div class="card-header">
                         <h4 class="card-title">{{$title}}</h4>
                     </div>
-                    @if(session('message'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('message') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
                     <div class="card-body">
                         <form action="{{route('category.change')}}" method="POST">
                             @csrf

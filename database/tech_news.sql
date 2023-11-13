@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 12, 2023 lúc 04:53 PM
+-- Thời gian đã tạo: Th10 13, 2023 lúc 06:07 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -167,7 +167,9 @@ INSERT INTO `tag` (`id_tag`, `title_tag`, `created_at`, `updated_at`) VALUES
 (7, 'ngoại hạng anh', NULL, NULL),
 (8, 'cây xanh', NULL, NULL),
 (9, 'quốc hội', NULL, NULL),
-(10, 'trường học', NULL, NULL);
+(10, 'trường học', NULL, NULL),
+(11, 'phụ nữ', '2023-11-13 16:47:23', '2023-11-13 16:47:23'),
+(12, 'pháp luật', '2023-11-13 16:59:59', '2023-11-13 17:05:30');
 
 -- --------------------------------------------------------
 
@@ -268,7 +270,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id_tag` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_tag` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `user`

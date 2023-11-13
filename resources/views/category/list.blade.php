@@ -4,6 +4,9 @@
     <div class="container-fluid">
         <div class="card-header ">
             <h4 class="card-title">{{$title}}</h4>
+            @if(session('message'))
+                {!! session('message') !!}
+            @endif
         </div>
         <table class="table table-striped w-100 mt-3">
             <thead>

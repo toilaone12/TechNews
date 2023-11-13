@@ -107,12 +107,12 @@
                         <ul class="cate-none-3" id="sub-cate--toggle3">
                             <li class="sub-cate">
                                 <i class="fa-solid fa-list" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="">Danh sách</a>
+                                <a class="sub-cate--title" href="{{route('tags.list')}}">Danh sách</a>
                             </li>
 
                             <li class="sub-cate">
                                 <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="">Thêm</a>
+                                <a class="sub-cate--title" href="{{route('tags.insert')}}">Thêm</a>
                             </li>
                             
                         </ul>

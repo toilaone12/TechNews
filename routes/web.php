@@ -9,6 +9,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SlideController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TypeOfCateController;
 
 /*
@@ -83,6 +84,15 @@ Route::prefix('admin')->group(function(){
         Route::post('/save',[NewsController::class,'insertNews'])->name('news.save');
         Route::post('/change',[NewsController::class,'editNews'])->name('news.change');
         Route::get('/{slug}',[NewsController::class,'detailNewsAdmin'])->name('news.detailAdmin');
+    });
+    //Tags
+    Route::prefix('tags')->group(function(){
+        Route::get('/list',[TagController::class,'list'])->name('tags.list');
+        Route::get('/insert',[TagController::class,'insert'])->name('tags.insert');
+        Route::get('/edit',[TagController::class,'edit'])->name('tags.edit');
+        Route::get('/delete',[TagController::class,'delete'])->name('tags.delete');
+        Route::post('/save',[TagController::class,'save'])->name('tags.save');
+        Route::post('/change',[TagController::class,'change'])->name('tags.change');
     });
     // Route::get('/details-news/{id_news}',[NewsController::class,'detailNews'])->name('news.detail');
     Route::get('/active-news/{level_news}/{id_type}/{id_news}',[NewsController::class,'changeDisplayNews'])->name('new.active');

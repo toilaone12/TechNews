@@ -9,14 +9,13 @@
                         <h4 class="card-title">{{$title}}</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{route('tags.change')}}" method="POST">
+                        <form action="{{route('tags.save')}}" method="POST">
                             @csrf
-                            <input type="hidden" name="id" value="{{$tag->id_tag}}">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label>Từ khóa</label>
-                                        <input type="text" class="form-control" name="title" value="{{$tag->title_tag}}" placeholder="Từ khóa">
+                                        <input type="text" class="form-control" name="title" placeholder="Từ khóa">
                                         @error('title')
                                         <p class="text-danger">{{$message}}</p>
                                         @enderror
