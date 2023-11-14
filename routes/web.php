@@ -22,12 +22,15 @@ use App\Http\Controllers\TypeOfCateController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Page
+Route::prefix('page')->group(function(){
+    Route::get('/', [HomeController::class, 'index'])->name('page.home');
+});
 //User
 Route::get('/personal-infomation/{us_name}', [HomeController::class, 'personalInfo']);
 Route::get('/edit-profile/{id_user}', [HomeController::class, 'editUser']);
 Route::post('/save-profile/{id_user}', [HomeController::class, 'saveUser']);
 //Page
-Route::get('/', [HomeController::class, 'index']);
 //Login
 Route::get('/login',[HomeController::class, 'login']);
 Route::get('/log-out',[HomeController::class, 'logout']);

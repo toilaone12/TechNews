@@ -8,6 +8,7 @@ use function Ramsey\Uuid\v1;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Console\Requests;
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Social;
 use App\Models\User;
@@ -111,37 +112,27 @@ class HomeController extends Controller
         }
     }
     public function index(){
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
-        $time = date("Y-m-d",mktime(0,0,0,7,27,2022));
-        // echo $time;
-        $list_cate = DB::table("category")->get();
-        $list_type = DB::table('type_of_cate')->get();
-        $max_news = DB::table("news")->max('updated_at');
-        $select_news = DB::table("news")->where("updated_at","<",DB::table("news")->max('updated_at'))->orderBy('updated_at','desc')->limit(2)->get();
-        $popular_news = DB::table("news")->orderBy("updated_at","desc")->limit(5)->get();
-        $most_comment_news = DB::table("news")->orderBy("comment_news","desc")->limit(5)->get();
-        $first_page = DB::table("category")->join("type_of_cate","category.id_cate","=","type_of_cate.id_cate")
-        ->join("news","type_of_cate.id_type","=","news.id_type")
-        ->select("category.name_cate","category.id_cate","type_of_cate.id_type","type_of_cate.name_type","news.*")
-        ->where('news.level_news',1)
-        ->get();
-        $second_pages = DB::table("category")->join("type_of_cate","category.id_cate","=","type_of_cate.id_cate")
-        ->join("news","type_of_cate.id_type","=","news.id_type")
-        ->select("category.name_cate","category.id_cate","type_of_cate.id_type","type_of_cate.name_type","news.*")
-        ->where('news.level_news',0)
-        ->get();
-        $select_ads = DB::table('slide')->where("updated_at",DB::table("slide")->max('updated_at'))->get();
-        if($max_news){
-            $select_news_by_time = DB::table("news")->where("updated_at",$max_news)->get();
-            // print_r($list_news_by_cate);
-            return view('pages.home')->with('list_cate',$list_cate)->with('max_news',$select_news_by_time)
-            ->with("news_order",$select_news)->with("popular_news",$popular_news)
-            ->with("most_comment",$most_comment_news)
-            ->with("second_pages",$second_pages)
-            ->with("select_ads",$select_ads)
-            ->with("first_page",$first_page)// thay / bằng .
-            ->with("list_type",$list_type); // thay / bằng . 
+        $title = 'Trang chủ';
+        $parents = Category::where('id_parent',0)->get();
+        $childs = Category::where('id_parent','!=',0)->get();
+        $arr = [];
+        foreach($parents as $parent){
+            $arrChild = [];
+            foreach($childs as $child){
+                if($child->id_parent == $parent->id_category){
+                    // $one = $child->name_category;
+                    array_push($arrChild,$child->name_category); 
+                }
+            }
+            $arr1 = [
+                'parent' => $parent->name_category,
+                'child' => $arrChild,
+            ];
+            array_push($arr,$arr1);
         }
+        $arr = collect($arr);
+        // dd($arr);
+        return view('home.content',compact('title','arr'));
     }
     public function logout(){
         // if(Cookie::has('not_remember')){

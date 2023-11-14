@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 13, 2023 lúc 06:07 PM
+-- Thời gian đã tạo: Th10 14, 2023 lúc 05:19 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -67,7 +67,14 @@ INSERT INTO `category` (`id_category`, `name_category`, `id_parent`, `slug_categ
 (2, 'Thể thao', 0, 'the-thao', '2023-11-10 16:51:03', '2023-11-10 17:37:25'),
 (3, 'Thời sự', 0, 'thoi-su', '2023-11-10 17:14:49', '2023-11-10 17:14:49'),
 (4, 'Chính trị', 3, 'chinh-tri', '2023-11-10 17:19:32', '2023-11-10 17:19:32'),
-(6, 'Dân sinh', 3, 'dan-sinh', '2023-11-10 17:44:04', '2023-11-10 17:44:04');
+(6, 'Dân sinh', 3, 'dan-sinh', '2023-11-10 17:44:04', '2023-11-10 17:44:04'),
+(7, 'Góc nhìn', 0, 'goc-nhin', '2023-11-14 15:52:54', '2023-11-14 15:52:54'),
+(8, 'Thế giới', 0, 'the-gioi', '2023-11-14 15:53:14', '2023-11-14 15:53:14'),
+(9, 'Kinh doanh', 0, 'kinh-doanh', '2023-11-14 15:53:29', '2023-11-14 15:53:29'),
+(10, 'Bất động sản', 0, 'bat-dong-san', '2023-11-14 15:53:38', '2023-11-14 15:53:38'),
+(11, 'Khoa học', 0, 'khoa-hoc', '2023-11-14 15:53:45', '2023-11-14 15:53:45'),
+(12, 'Giải trí', 0, 'giai-tri', '2023-11-14 15:54:00', '2023-11-14 15:54:00'),
+(13, 'Pháp luật', 0, 'phap-luat', '2023-11-14 15:54:10', '2023-11-14 15:54:10');
 
 -- --------------------------------------------------------
 
@@ -246,7 +253,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `comment`
