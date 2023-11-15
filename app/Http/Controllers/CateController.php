@@ -30,11 +30,10 @@ class CateController extends Controller
     public function saveCate(Request $request){
         $data = $request->all();
         Validator::make($data,[
-            'name_cate' => ['required','regex:/^[a-zA-ZÀ-ỹ\s]+$/u'], //u: ho tro Unicode \s ho tro dau cach
+            'name_cate' => ['required'], //u: ho tro Unicode \s ho tro dau cach
             'id_parent' => ['required'],
         ],[
             'name_cate.required' => 'Bắt buộc phải có',
-            'name_cate.regex' => 'Bắt buộc phải là chữ cái',
             'id_parent.required' => 'Bắt buộc phải có',
         ])->validate();
         $insert = Category::create([
@@ -43,9 +42,9 @@ class CateController extends Controller
             'slug_category' => Str::slug($data['name_cate'],'-'),
         ]);
         if($insert){
-            return redirect()->route('category.list')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
+            return redirect()->route('category.insert')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
         }else{
-            return redirect()->route('category.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
+            return redirect()->route('category.insert')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
     public function formEditCate(Request $request){

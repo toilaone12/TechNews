@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/slick.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/nice-select.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/css/update.css')}}">
 </head>
 
 <body>

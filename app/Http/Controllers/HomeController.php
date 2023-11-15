@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\Console\Requests;
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\News;
 use App\Models\Social;
 use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
@@ -115,6 +116,8 @@ class HomeController extends Controller
         $title = 'Trang chủ';
         $parents = Category::where('id_parent',0)->get();
         $childs = Category::where('id_parent','!=',0)->get();
+        $hotNews = News::where('is_hot',1)->limit(4)->get();
+        $news = News::all();
         $arr = [];
         foreach($parents as $parent){
             $arrChild = [];
@@ -130,9 +133,28 @@ class HomeController extends Controller
             ];
             array_push($arr,$arr1);
         }
+        $arrNews = [];
+        foreach($parents as $parent){
+            $arrNewsChild = [];
+            foreach($childs as $child){
+                $news = News::where('id_category',$child->id_category)->get();
+                // dd($child->id_category);
+                if($child->id_parent == $parent->id_category){
+                    $arrNewsChild[] = [
+                        'child' => $child->name_category,
+                        'listNews' => $news, 
+                    ];
+                }
+            }
+            $arrNews[] = [
+                'parent' => $parent->name_category,
+                'arrChild' => $arrNewsChild
+            ];
+        }
         $arr = collect($arr);
+        $arrNews = collect($arrNews);
         // dd($arr);
-        return view('home.content',compact('title','arr'));
+        return view('home.content',compact('title','arr','hotNews','parents','childs','news','arrNews'));
     }
     public function logout(){
         // if(Cookie::has('not_remember')){

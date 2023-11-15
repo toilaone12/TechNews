@@ -65,9 +65,9 @@ class NewsController extends Controller
         // dd($data);
         $insert = News::create($data);
         if($insert){
-            return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
+            return redirect()->route('news.insert')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
         }else{
-            return redirect()->route('news.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
+            return redirect()->route('news.insert')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
     public function listNews(){
