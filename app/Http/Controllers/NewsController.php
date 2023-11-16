@@ -160,61 +160,34 @@ class NewsController extends Controller
     }
     //End Admin
     //Start Pages
-    public function detail_news($id_news){
-        $list_cate = DB::table("category")->get();
-        $list_type = DB::table("type_of_cate")->get();
-        $select_news_by_id = DB::table("news")->where('id_news',$id_news)->get();
-        
-        foreach($select_news_by_id as $key => $news){
-            $view_news = $news->views_news;
-            $id_type = $news->id_type;
+    public function detail($slug){
+        $new = News::where('slug_news',$slug)->first();
+        $relates = News::where('id_category',$new->id_category)->where('id_news','!=',$new->id_news)->limit(5)->get();
+        $title = $new->title_news;
+        $parents = Category::where('id_parent',0)->get();
+        $childs = Category::where('id_parent','!=',0)->get();
+        $arr = [];
+        foreach($parents as $parent){
+            $arrChild = [];
+            foreach($childs as $child){
+                if($child->id_parent == $parent->id_category){
+                    // $one = $child->name_category;
+                    $arrChild[] = [
+                        'slug' => $child->slug_category,
+                        'name' => $child->name_category,
+                    ];
+                }
+            }
+            $arrParent = [
+                'slug' => $parent->slug_category,
+                'name' => $parent->name_category,
+            ];
+            $arr[] = [
+                'parent' => $arrParent,
+                'child' => $arrChild,
+            ];
         }
-        if(isset($id_news)){
-            $data = array();
-            $data['views_news'] = $view_news + 1;
-            $update_views = DB::table('news')->where('id_news',$id_news)->update($data);
-        }
-        $select_news_related = DB::table("news as n")
-        ->join('type_of_cate as tc','n.id_type','tc.id_type')
-        ->where('tc.id_type',$id_type)
-        ->take(4)
-        ->get();
-        $select_news_popular = DB::table("news as n")
-        ->join('type_of_cate as tc','n.id_type','tc.id_type')
-        ->where('tc.id_type',$id_type)
-        
-        ->orderBy('n.updated_at','desc')
-        ->take(5)
-        ->get();
-        $select_views = DB::table("news as n")
-        ->join('type_of_cate as tc','n.id_type','tc.id_type')
-        ->where('tc.id_type',$id_type)
-        ->orderBy('n.views_news','desc')
-        ->take(5)
-        ->get();
-        $select_most_comment = DB::table("news as n")
-        ->join('type_of_cate as tc','n.id_type','tc.id_type')
-        ->where('tc.id_type',$id_type)
-        ->orderBy('n.comment_news','desc')
-        ->take(5)
-        ->get();
-        $select_comment = DB::table("comment")
-        ->where('id_news',$id_news)
-        ->get();
-        $select_replies = DB::table("replies")
-        ->where('id_news',$id_news)
-        ->get();
-        // print_r($select_news_related);
-        return view('pages.detail_news')
-        ->with('list_cate',$list_cate)
-        ->with('select_news',$select_news_by_id)
-        ->with('select_related',$select_news_related)
-        ->with('select_popular',$select_news_popular)
-        ->with('select_views',$select_views)
-        ->with('select_most_comment',$select_most_comment)
-        ->with('select_comment',$select_comment)
-        ->with('select_replies',$select_replies)
-        ->with('list_type',$list_type);
+        return view('news.details',compact('title','arr','new','relates'));
     }
     public function add_comment($id_news,Request $request){
         date_default_timezone_set("Asia/Ho_Chi_Minh");

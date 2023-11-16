@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 15, 2023 lúc 05:18 PM
+-- Thời gian đã tạo: Th10 16, 2023 lúc 04:37 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -63,12 +63,12 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id_category`, `name_category`, `id_parent`, `slug_category`, `created_at`, `updated_at`) VALUES
-(1, 'Xã hội', 0, 'xa-hoi', '2023-11-10 16:50:26', '2023-11-10 16:50:26'),
+(1, 'Đời sống', 0, 'doi-song', '2023-11-10 16:50:26', '2023-11-16 15:35:29'),
 (2, 'Thể thao', 0, 'the-thao', '2023-11-10 16:51:03', '2023-11-10 17:37:25'),
 (3, 'Thời sự', 0, 'thoi-su', '2023-11-10 17:14:49', '2023-11-10 17:14:49'),
 (4, 'Chính trị', 3, 'chinh-tri', '2023-11-10 17:19:32', '2023-11-10 17:19:32'),
 (6, 'Dân sinh', 3, 'dan-sinh', '2023-11-10 17:44:04', '2023-11-10 17:44:04'),
-(7, 'Góc nhìn', 0, 'goc-nhin', '2023-11-14 15:52:54', '2023-11-14 15:52:54'),
+(7, 'Ý kiến', 0, 'y-kien', '2023-11-14 15:52:54', '2023-11-16 15:36:49'),
 (8, 'Thế giới', 0, 'the-gioi', '2023-11-14 15:53:14', '2023-11-14 15:53:14'),
 (9, 'Kinh doanh', 0, 'kinh-doanh', '2023-11-14 15:53:29', '2023-11-14 15:53:29'),
 (10, 'Bất động sản', 0, 'bat-dong-san', '2023-11-14 15:53:38', '2023-11-14 15:53:38'),
@@ -101,7 +101,12 @@ INSERT INTO `category` (`id_category`, `name_category`, `id_parent`, `slug_categ
 (37, 'Hồ sơ phá án', 13, 'ho-so-pha-an', '2023-11-15 16:17:22', '2023-11-15 16:17:22'),
 (38, 'Quốc tế', 9, 'quoc-te', '2023-11-15 16:17:49', '2023-11-15 16:17:49'),
 (39, 'Doanh nghiệp', 9, 'doanh-nghiep', '2023-11-15 16:18:00', '2023-11-15 16:18:00'),
-(40, 'Chứng khoán', 9, 'chung-khoan', '2023-11-15 16:18:06', '2023-11-15 16:18:06');
+(40, 'Chứng khoán', 9, 'chung-khoan', '2023-11-15 16:18:06', '2023-11-15 16:18:06'),
+(41, 'Nhịp sống', 1, 'nhip-song', '2023-11-16 15:35:45', '2023-11-16 15:35:45'),
+(42, 'Tổ ấm', 1, 'to-am', '2023-11-16 15:35:50', '2023-11-16 15:35:50'),
+(43, 'Tiêu dùng', 1, 'tieu-dung', '2023-11-16 15:35:57', '2023-11-16 15:35:57'),
+(44, 'Thời sự', 7, 'thoi-su', '2023-11-16 15:37:03', '2023-11-16 15:37:03'),
+(45, 'Đời sống', 7, 'doi-song', '2023-11-16 15:37:09', '2023-11-16 15:37:09');
 
 -- --------------------------------------------------------
 
@@ -284,7 +289,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT cho bảng `comment`

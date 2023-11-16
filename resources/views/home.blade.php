@@ -90,11 +90,11 @@
                                         <ul id="navigation">
                                             <li><a href="{{route('page.home')}}">Trang chủ</a></li>
                                             @foreach($arr as $parent)
-                                            <li><a href="#">{{$parent['parent']}}</a>
+                                            <li><a href="{{$parent['parent']['slug']}}">{{$parent['parent']['name']}}</a>
                                                 @if(count($parent['child']) != 0)
                                                 <ul class="submenu">
                                                     @foreach($parent['child'] as $child)
-                                                    <li><a href="elements.html">{{$child}}</a></li>
+                                                    <li><a href="{{$child['slug']}}">{{$child['name']}}</a></li>
                                                     @endforeach
                                                 </ul>
                                                 @endif
@@ -255,7 +255,7 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="{{asset('frontend/js/plugins.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
-
+    <script src="{{asset('frontend/js/update.js')}}"></script>
 </body>
 
 </html>

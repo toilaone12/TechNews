@@ -116,7 +116,7 @@ class HomeController extends Controller
         $title = 'Trang chủ';
         $parents = Category::where('id_parent',0)->get();
         $childs = Category::where('id_parent','!=',0)->get();
-        $hotNews = News::where('is_hot',1)->limit(4)->get();
+        $hotNews = News::where('is_hot',1)->limit(3)->get();
         $news = News::all();
         $arr = [];
         foreach($parents as $parent){
@@ -124,15 +124,22 @@ class HomeController extends Controller
             foreach($childs as $child){
                 if($child->id_parent == $parent->id_category){
                     // $one = $child->name_category;
-                    array_push($arrChild,$child->name_category); 
+                    $arrChild[] = [
+                        'slug' => $child->slug_category,
+                        'name' => $child->name_category,
+                    ];
                 }
             }
-            $arr1 = [
-                'parent' => $parent->name_category,
+            $arrParent = [
+                'slug' => $parent->slug_category,
+                'name' => $parent->name_category,
+            ];
+            $arr[] = [
+                'parent' => $arrParent,
                 'child' => $arrChild,
             ];
-            array_push($arr,$arr1);
         }
+        // dd($arr);
         $arrNews = [];
         foreach($parents as $parent){
             $arrNewsChild = [];
@@ -153,7 +160,7 @@ class HomeController extends Controller
         }
         $arr = collect($arr);
         $arrNews = collect($arrNews);
-        // dd($arr);
+        // dd($arrNews);
         return view('home.content',compact('title','arr','hotNews','parents','childs','news','arrNews'));
     }
     public function logout(){

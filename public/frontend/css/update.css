@@ -46,3 +46,20 @@
 .fs-27{
     font-size: 27px;
 }
+.cursor-pointer{
+    cursor: pointer;
+}
+.text-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* Hiển thị chỉ 3 dòng văn bản */
+    -webkit-line-clamp: 3;
+    /* Đảm bảo văn bản không bị lệch khi áp dụng line-clamp */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+.object-fit-cover{
+    object-fit: cover;
+}

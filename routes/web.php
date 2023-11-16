@@ -25,6 +25,10 @@ use App\Http\Controllers\TypeOfCateController;
 // Page
 Route::prefix('page')->group(function(){
     Route::get('/', [HomeController::class, 'index'])->name('page.home');
+    Route::prefix('news')->group(function(){
+        Route::get('/{slug}',[NewsController::class,'detail'])->name('news.detail');
+    });
+
 });
 //User
 Route::get('/personal-infomation/{us_name}', [HomeController::class, 'personalInfo']);
@@ -39,7 +43,6 @@ Route::post('/log-in',[HomeController::class, 'goToPage']);
 //Category
 Route::get('/category-news/{id_cate}/{pages}',[CateController::class,'category_news']);
 //News
-Route::get('/detail-news/{id_news}',[NewsController::class,'detail_news']);
 Route::post('/add-comment/{id_news}',[NewsController::class,'add_comment']);
 Route::post('/search-news',[NewsController::class,'searchNews']);
 Route::get('/search-news/{name_search}/{pages}',[NewsController::class,'searchNewsByNumberPages']);

@@ -78,43 +78,55 @@
             <div class="row">
                 <div class="col-lg-10">
                     <div class="row">
-                        @foreach($parents as $key => $parent)
+                        @foreach($arrNews as $key => $parent)
                         <div class="col-lg-6">
                             <div class="row d-flex justify-content-between">
-                                <div class="col-lg-12 col-md-12">
+                                <div class="col-lg-12 col-md-12 mt-4">
                                     <div class="section-tittle mb-30 d-flex align-items-center">
-                                        <p class="fs-17 pb-1 mr-3 text-danger font-weight-bold" style="border-bottom: 1px solid #9f224e;">{{$parent->name_category}}</p>
+                                        <p class="fs-17 pb-1 mr-3 text-danger font-weight-bold" style="border-bottom: 1px solid #9f224e;">{{$parent['parent']}}</p>
                                         @php
                                         $count1 = 0;
                                         @endphp
-                                        @foreach($childs as $key => $child)
-                                        @if($parent->id_category == $child->id_parent)
+                                        @foreach($parent['arrChild'] as $key => $child)
                                         @php
                                         $count1++;
                                         @endphp
-                                        <p class="fs-13 mr-3">{{$child->name_category}}</p>
+                                        <p class="fs-13 mr-3 cursor-pointer">{{$child['child']}}</p>
                                         @php
-                                        if($count1 == 3) break;   
+                                        if($count1 == 3) break;
                                         @endphp
-                                        @endif
                                         @endforeach
                                     </div>
                                     <div class="row">
                                         @php
                                         $count2 = 0;
                                         @endphp
-                                        @foreach($childs as $key => $child)
-                                        @foreach($news as $key => $new)
-                                        @if($new->id_category == $child->id_category && $parent->id_category == $child->id_parent)
+                                        @foreach($parent['arrChild'] as $key => $child)
+                                        @foreach($child['listNews'] as $key1 => $new)
                                         @php
                                         $count2++;
                                         @endphp
-                                        <div class="col-lg-6">{{$new->title_news}}</div>
-                                        @php
-                                        if($count2 == 2) break;   
-                                        @endphp
-                                        @endif
+                                        <div class="col-lg-6 {{$count2 > 2 ? 'mt-3' : ''}}">
+                                            <div class="card border-0">
+                                                <div class="pb-2">
+                                                    <a href="{{route('news.detail',['slug' => $new->slug_news])}}"><img src="{{asset($new->image_news)}}" alt="" width="220" height="138" loading="lazy"></a>
+                                                </div>
+                                                <div class="content">
+                                                    <a href="{{route('news.detail',['slug' => $new->slug_news])}}">
+                                                        <div class="fs-15 font-weight-bold text-dark">{{$new->title_news}}</div>
+                                                        <div class="subtitle fs-14 text-secondary text-summary">
+                                                            {{$new->summary_news}}
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @endforeach
+                                        @php
+                                        if($count2 == 4){
+                                        break;
+                                        }
+                                        @endphp
                                         @endforeach
                                     </div>
                                 </div>
