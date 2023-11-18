@@ -32,7 +32,7 @@
                     @endforeach
                     <td width="200">{{$new->title_news}}</td>
                     <td width="200">{{$new->summary_news}}</td>
-                    <td class="text-truncate" style="max-width: 350px;">{{$new->content_news}}</td>
+                    <td class="text-truncate" style="max-width: 300px;">{{$new->content_news}}</td>
                     <td>
                         <a href="{{route('news.detailAdmin',['slug' => $new->slug_news])}}" class="btn btn-primary d-block w-75 mb-2">Xem nội dung</a>
                         <a href="{{route('news.edit',['id' => $new->id_news])}}" class="btn btn-success d-block w-75 mb-2">Sửa</a>

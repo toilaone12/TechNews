@@ -118,6 +118,7 @@ class HomeController extends Controller
         $childs = Category::where('id_parent','!=',0)->get();
         $hotNews = News::where('is_hot',1)->limit(3)->get();
         $news = News::all();
+        $newsCreated = News::orderBy('updated_at','desc')->limit(4)->get();
         $arr = [];
         foreach($parents as $parent){
             $arrChild = [];
@@ -148,20 +149,24 @@ class HomeController extends Controller
                 // dd($child->id_category);
                 if($child->id_parent == $parent->id_category){
                     $arrNewsChild[] = [
-                        'child' => $child->name_category,
+                        'name' => $child->name_category,
+                        'slug' => $child->slug_category,
                         'listNews' => $news, 
                     ];
                 }
             }
             $arrNews[] = [
-                'parent' => $parent->name_category,
+                'parent' => [
+                    'name' => $parent->name_category,
+                    'slug'=> $parent->slug_category,
+                ],
                 'arrChild' => $arrNewsChild
             ];
         }
         $arr = collect($arr);
         $arrNews = collect($arrNews);
         // dd($arrNews);
-        return view('home.content',compact('title','arr','hotNews','parents','childs','news','arrNews'));
+        return view('home.content',compact('title','arr','hotNews','parents','childs','news','arrNews','newsCreated'));
     }
     public function logout(){
         // if(Cookie::has('not_remember')){

@@ -71,7 +71,11 @@
                                             <div class="card-body">
                                                 <select class="js-example-basic-multiple form-select" name="tag[]" multiple="multiple">
                                                     @foreach($tags as $key => $tag)
+                                                    @if($new->tag_news)
                                                     <option value="{{$tag->id_tag}}" {{in_array($tag->id_tag, json_decode($new->tag_news)) ? 'selected' : ''}}>{{$tag->title_tag}}</option>
+                                                    @else
+                                                    <option value="{{$tag->id_tag}}">{{$tag->title_tag}}</option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>

@@ -162,10 +162,31 @@ class NewsController extends Controller
     //Start Pages
     public function detail($slug){
         $new = News::where('slug_news',$slug)->first();
-        $relates = News::where('id_category',$new->id_category)->where('id_news','!=',$new->id_news)->limit(5)->get();
+        $new->number_views += 1;
+        $new->save();
+        $dayCreated = date('l',strtotime($new->updated_at));
+        $arrDay = [
+            'Monday' => 'Thứ hai',
+            'Tuesday' => 'Thứ ba',
+            'Wednesday' => 'Thứ tư',
+            'Thursday' => 'Thứ năm',
+            'Friday' => 'Thứ sáu',
+            'Saturday' => 'Thứ bảy',
+            'Sunday' => 'Chủ nhật',
+        ];
+        $dayCreated = $arrDay[$dayCreated];
+        $dateCreated = date('j/n/Y, H:i',strtotime($new->created_at));
+        $dateCreated = $dayCreated . ', ' . $dateCreated . ' (GMT+7)';
+        // dd($dateCreated);
+        $childNews = Category::where('id_category',$new->id_category)->first();
+        $parentNews = Category::where('id_category',$childNews->id_parent)->first();
+        $relates = News::where('id_category',$new->id_category)->where('id_news','!=',$new->id_news)->limit(3)->get();
+        $mostViewsNews = News::where('id_category','!=',$new->id_category)->where('id_news','!=',$new->id_news)->orderBy('number_views','desc')->limit(3)->get();
         $title = $new->title_news;
         $parents = Category::where('id_parent',0)->get();
         $childs = Category::where('id_parent','!=',0)->get();
+        $tags = json_decode($new->tag_news);
+        $arrTags = [];
         $arr = [];
         foreach($parents as $parent){
             $arrChild = [];
@@ -187,7 +208,16 @@ class NewsController extends Controller
                 'child' => $arrChild,
             ];
         }
-        return view('news.details',compact('title','arr','new','relates'));
+        foreach($tags as $tag){
+            $one = Tag::find($tag); 
+            $arrTags[] = [
+                'name' => $one->title_tag,
+                'slug' => $one->slug_tag
+            ];
+        }
+        $arrTags = collect($arrTags);
+        // dd($arrTags);
+        return view('news.details',compact('title','arr','new','relates','childNews','parentNews','dateCreated','mostViewsNews','arrTags'));
     }
     public function add_comment($id_news,Request $request){
         date_default_timezone_set("Asia/Ho_Chi_Minh");

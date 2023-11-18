@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Models\News;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
@@ -28,7 +32,8 @@ class TagController extends Controller
             'title.required' => 'Bắt buộc phải có từ khóa'
         ])->validate();
         $insert = Tag::create([
-            'title_tag' => $data['title']
+            'title_tag' => $data['title'],
+            'slug_tag' => Str::slug($data['title'],'-')
         ]);
         if($insert){
             return redirect()->route('tags.list')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
@@ -53,6 +58,7 @@ class TagController extends Controller
         ])->validate();
         $tag = Tag::find($data['id']);
         $tag->title_tag = $data['title'];
+        $tag->slug_tag = Str::slug($data['title'],'-');
         $update = $tag->save();
         if($update){
             return redirect()->route('tags.list')->with('message','<div class="alert alert-success alert-dismissible">Sửa thành công!</div>');
@@ -69,5 +75,39 @@ class TagController extends Controller
         }else{
             return redirect()->route('tags.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
+    }
+
+    public function find($slug){
+        $tag = Tag::where('slug_tag',$slug)->first();
+        $title = $tag->title_tag;
+        // DB::enableQueryLog();
+        $news = News::where('tag_news','like','%'.$tag->id_tag.'%')->paginate(2);
+        // $db = DB::getQueryLog();
+        // dd($news);
+        $parents = Category::where('id_parent',0)->get();
+        $childs = Category::where('id_parent','!=',0)->get();
+        $arr = [];
+        foreach($parents as $parent){
+            $arrChild = [];
+            foreach($childs as $child){
+                if($child->id_parent == $parent->id_category){
+                    // $one = $child->name_category;
+                    $arrChild[] = [
+                        'slug' => $child->slug_category,
+                        'name' => $child->name_category,
+                    ];
+                }
+            }
+            $arrParent = [
+                'slug' => $parent->slug_category,
+                'name' => $parent->name_category,
+            ];
+            $arr[] = [
+                'parent' => $arrParent,
+                'child' => $arrChild,
+            ];
+        }
+        $arr = collect($arr);
+        return view('tags.home',compact('title','news','arr','parents','childs','tag'));
     }
 }

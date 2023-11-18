@@ -76,14 +76,14 @@
     <section class="whats-news-area pt-50 pb-20">
         <div class="container">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <div class="row">
                         @foreach($arrNews as $key => $parent)
                         <div class="col-lg-6">
                             <div class="row d-flex justify-content-between">
                                 <div class="col-lg-12 col-md-12 mt-4">
                                     <div class="section-tittle mb-30 d-flex align-items-center">
-                                        <p class="fs-17 pb-1 mr-3 text-danger font-weight-bold" style="border-bottom: 1px solid #9f224e;">{{$parent['parent']}}</p>
+                                        <a href="{{route('category.allCategory',['slug' => $parent['parent']['slug']])}}" class="fs-17 pb-1 mr-3 text-danger font-weight-bold cursor-pointer" style="border-bottom: 1px solid #9f224e;">{{$parent['parent']['name']}}</a>
                                         @php
                                         $count1 = 0;
                                         @endphp
@@ -91,7 +91,7 @@
                                         @php
                                         $count1++;
                                         @endphp
-                                        <p class="fs-13 mr-3 cursor-pointer">{{$child['child']}}</p>
+                                        <a href="{{route('category.allCategory',['slug' => $child['slug']])}}" class="fs-13 mr-3 cursor-pointer text-secondary">{{$child['name']}}</a>
                                         @php
                                         if($count1 == 3) break;
                                         @endphp
@@ -109,7 +109,7 @@
                                         <div class="col-lg-6 {{$count2 > 2 ? 'mt-3' : ''}}">
                                             <div class="card border-0">
                                                 <div class="pb-2">
-                                                    <a href="{{route('news.detail',['slug' => $new->slug_news])}}"><img src="{{asset($new->image_news)}}" alt="" width="220" height="138" loading="lazy"></a>
+                                                    <a href="{{route('news.detail',['slug' => $new->slug_news])}}"><img src="{{asset($new->image_news)}}" alt="" width="195" height="113" loading="lazy"></a>
                                                 </div>
                                                 <div class="content">
                                                     <a href="{{route('news.detail',['slug' => $new->slug_news])}}">
@@ -135,8 +135,24 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="col-lg-2">
-
+                <div class="col-lg-3 mt-4 border-left">
+                    <p class="fs-17 text-danger font-weight-bold">Tin mới nhất</p>
+                    <div class="row">
+                        @foreach($newsCreated as $one)
+                        <div class="col-lg-12">
+                            <div class="card border-0">
+                                <div class="pb-2">
+                                    <a href="{{route('news.detail',['slug' => $one->slug_news])}}"><img src="{{asset($one->image_news)}}" alt="" width="270" height="168" loading="lazy"></a>
+                                </div>
+                                <div class="content">
+                                    <a href="{{route('news.detail',['slug' => $one->slug_news])}}">
+                                        <p class="fs-15 font-weight-bold text-dark">{{$one->title_news}}</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

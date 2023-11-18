@@ -63,3 +63,12 @@
 .object-fit-cover{
     object-fit: cover;
 }
+.active {
+    color: #04416D !important;
+}
+.hover-title:hover{
+    color: #000;
+}
+.disabled{
+    opacity: 0.35;
+}

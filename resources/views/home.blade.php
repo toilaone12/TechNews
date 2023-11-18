@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Tech News</title>
+    <title>{{$title}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/image/favicon.ico')}}">
@@ -24,19 +24,6 @@
 </head>
 
 <body>
-
-    <!-- Preloader Start -->
-    <!-- <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/logo.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Preloader Start -->
 
     <header>
         <!-- Header Start -->
@@ -90,11 +77,11 @@
                                         <ul id="navigation">
                                             <li><a href="{{route('page.home')}}">Trang chủ</a></li>
                                             @foreach($arr as $parent)
-                                            <li><a href="{{$parent['parent']['slug']}}">{{$parent['parent']['name']}}</a>
+                                            <li><a href="{{route('category.allCategory',['slug' => $parent['parent']['slug']])}}">{{$parent['parent']['name']}}</a>
                                                 @if(count($parent['child']) != 0)
                                                 <ul class="submenu">
                                                     @foreach($parent['child'] as $child)
-                                                    <li><a href="{{$child['slug']}}">{{$child['name']}}</a></li>
+                                                    <li><a href="{{route('category.allCategory',['slug' => $child['slug']])}}">{{$child['name']}}</a></li>
                                                     @endforeach
                                                 </ul>
                                                 @endif

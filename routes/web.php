@@ -28,7 +28,12 @@ Route::prefix('page')->group(function(){
     Route::prefix('news')->group(function(){
         Route::get('/{slug}',[NewsController::class,'detail'])->name('news.detail');
     });
-
+    Route::prefix('category')->group(function(){
+        Route::get('/{slug}',[CateController::class,'category'])->name('category.allCategory');
+    });
+    Route::prefix('tags')->group(function(){
+        Route::get('/{slug}',[TagController::class,'find'])->name('tags.find');
+    });
 });
 //User
 Route::get('/personal-infomation/{us_name}', [HomeController::class, 'personalInfo']);
