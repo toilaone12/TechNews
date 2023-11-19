@@ -143,25 +143,29 @@ class HomeController extends Controller
         // dd($arr);
         $arrNews = [];
         foreach($parents as $parent){
+            $arrChild = [];
             $arrNewsChild = [];
             foreach($childs as $child){
                 $news = News::where('id_category',$child->id_category)->get();
                 // dd($child->id_category);
                 if($child->id_parent == $parent->id_category){
-                    $arrNewsChild[] = [
+                    $arrChild[] = [
                         'name' => $child->name_category,
                         'slug' => $child->slug_category,
-                        'listNews' => $news, 
                     ];
+                    $arrNewsChild[] = $news;
                 }
             }
+            $parentNews = News::where('id_category',$parent->id_category)->get();
             $arrNews[] = [
                 'parent' => [
                     'name' => $parent->name_category,
                     'slug'=> $parent->slug_category,
+                    'listNews' => collect($arrNewsChild)->merge($parentNews)
                 ],
-                'arrChild' => $arrNewsChild
+                'arrChild' => $arrChild
             ];
+            // dd($arrNewsChild);
         }
         $arr = collect($arr);
         $arrNews = collect($arrNews);

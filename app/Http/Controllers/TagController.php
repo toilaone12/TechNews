@@ -108,6 +108,6 @@ class TagController extends Controller
             ];
         }
         $arr = collect($arr);
-        return view('tags.home',compact('title','news','arr','parents','childs','tag'));
+        return view('tag.home',compact('title','news','arr','parents','childs','tag'));
     }
 }

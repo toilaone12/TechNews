@@ -49,17 +49,30 @@
                 </div>
                 <div class="header-mid d-none d-md-block">
                     <div class="container">
-                        <div class="row d-flex align-items-center">
+                        <div class="d-flex align-items-center justify-content-between">
                             <!-- Logo -->
                             <div class="col-xl-3 col-lg-3 col-md-3">
                                 <div class="logo">
                                     <a href="{{route('page.home')}}"><img src="{{asset('frontend/image/logo.png')}}" alt=""></a>
                                 </div>
                             </div>
-                            <div class="col-xl-9 col-lg-9 col-md-9">
-                                <div class="header-banner f-right ">
-                                    <img src="" alt="">
+                            <div class="d-flex align-items-center">
+                                @if(request()->cookie('id'))
+                                <span class="rounded-circle border fs-18 mr-2 text-center pt-1" style="width: 36px; height: 36px;">
+                                    {{strtoupper(substr(request()->cookie('fullname'),0,1))}}
+                                </span>
+                                <span class="fs-17 cursor-pointer" type="button" id="setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{request()->cookie('fullname')}}
+                                </span>
+                                <div class="dropdown-menu mt-3" aria-labelledby="setting">
+                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="#">Thông tin chung</a>
+                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="#">Đổi mật khẩu</a>
+                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="#">Đăng xuất</a>
                                 </div>
+                                @else
+                                <i class="rounded-circle border fa-regular fa-user fs-18 mr-2 text-center pt-2" style="width: 36px; height: 36px;"></i>
+                                <span class="fs-17 cursor-pointer open-login">Đăng nhập</span>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -324,6 +337,10 @@
             })
             $('#pills-register-tab').on('click',function(){
                 $('#pills-login').removeClass('show active');
+            })
+            $('.open-login').on('click',function(){
+                $('#comment').modal('show');
+                $('#pills-login').addClass('show active')
             })
         })
     </script>

@@ -125,7 +125,7 @@ class NewsController extends Controller
             $new->image_news = $imageNews;
             $new->id_category = $data['id_category'];
             $new->title_news = $data['title'];
-            $new->slug_news = $data['slug'];
+            $new->slug_news = Str::slug($data['title'],'-');
             $new->summary_news = Str::slug($data['title'],'-');
             $new->content_news = $data['content'];
             $new->is_hot = isset($data['is_hot']) ? $data['is_hot'] : 1;
@@ -180,7 +180,7 @@ class NewsController extends Controller
         $dateCreated = $dayCreated . ', ' . $dateCreated . ' (GMT+7)';
         // dd($dateCreated);
         $childNews = Category::where('id_category',$new->id_category)->first();
-        $parentNews = Category::where('id_category',$childNews->id_parent)->first();
+        if($childNews->id_parent == 0) $parentNews = Category::where('id_category',$childNews->id_parent)->first();
         $relates = News::where('id_category',$new->id_category)->where('id_news','!=',$new->id_news)->limit(3)->get();
         $mostViewsNews = News::where('id_category','!=',$new->id_category)->where('id_news','!=',$new->id_news)->orderBy('number_views','desc')->limit(3)->get();
         $title = $new->title_news;
@@ -210,15 +210,17 @@ class NewsController extends Controller
                 'child' => $arrChild,
             ];
         }
-        foreach($tags as $tag){
-            $one = Tag::find($tag); 
-            $arrTags[] = [
-                'name' => $one->title_tag,
-                'slug' => $one->slug_tag
-            ];
+        if($tags){
+            foreach($tags as $tag){
+                $one = Tag::find($tag); 
+                $arrTags[] = [
+                    'name' => $one->title_tag,
+                    'slug' => $one->slug_tag
+                ];
+            }
         }
         $arrTags = collect($arrTags);
-        // dd($comments);
+        // dd($parentNews);
         return view('news.details',compact('title','arr','new','relates','childNews','parentNews','dateCreated','mostViewsNews','arrTags','comments'));
     }
 }
