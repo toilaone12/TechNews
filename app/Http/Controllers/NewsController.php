@@ -11,6 +11,7 @@ use App\Console\Requests;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Tag;
+use App\Models\Comment;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -185,6 +186,7 @@ class NewsController extends Controller
         $title = $new->title_news;
         $parents = Category::where('id_parent',0)->get();
         $childs = Category::where('id_parent','!=',0)->get();
+        $comments = Comment::where('id_news',$new->id_news)->get();
         $tags = json_decode($new->tag_news);
         $arrTags = [];
         $arr = [];
@@ -216,106 +218,8 @@ class NewsController extends Controller
             ];
         }
         $arrTags = collect($arrTags);
-        // dd($arrTags);
-        return view('news.details',compact('title','arr','new','relates','childNews','parentNews','dateCreated','mostViewsNews','arrTags'));
-    }
-    public function add_comment($id_news,Request $request){
-        date_default_timezone_set("Asia/Ho_Chi_Minh");
-        $date = date("Y-m-d H:i:s");
-        $data = array();
-        $data['id_news'] = $id_news;
-        $data['name_user'] = $request->name_comment;
-        $data['comment'] = $request->content_comment;
-        $data['updated_at'] = $date;
-        $data['created_at'] = $date;
-        $add_comment = DB::table('comment')->insert($data);
-        if($add_comment){
-            $select_news_by_id = DB::table("news")->where('id_news',$id_news)->get();
-            foreach($select_news_by_id as $key => $news){
-                $comment_news = $news->comment_news;
-            }
-            $array = array();
-            $array['comment_news'] = $comment_news + 1;
-            $update_comment = DB::table('news')->where('id_news',$id_news)->update($array);
-            if($update_comment){
-                return Redirect::to("/detail-news/$id_news");
-            }else{
-                echo "F";
-            }
-        }else{
-            echo "F";
-        }
-    }
-    public function searchNews(Request $request){
-        $name_search = $request->name_search;
-        $search = DB::table('news')->where('name_news','like','%'.$name_search.'%')
-        ->skip(0)
-        ->take(5)
-        ->get();
-        $list_cate = DB::table("category")->get();
-        $list_type = DB::table("type_of_cate")->get();
-        $popular_news = DB::table("news as n")
-        ->join('type_of_cate as tc','tc.id_type','=','n.id_type')
-        ->orderBy("n.updated_at","desc")->limit(5)->get();
-        $most_views = DB::table("news as n")
-        ->join('type_of_cate as tc','tc.id_type','=','n.id_type')
-        ->orderBy("n.views_news","desc")->limit(5)->get();
-        $most_comment = DB::table("news as n")
-        ->join('type_of_cate as tc','tc.id_type','=','n.id_type')
-        ->orderBy("n.comment_news","desc")->limit(5)->get();
-        $count_pages = DB::table('news as n')
-        ->join('type_of_cate as tc','tc.id_type','=','n.id_type')
-        ->where('name_news','like','%'.$name_search.'%')
-        ->get();
-        $count = ceil($count_pages->count() / 5);
-        
-        return view('pages.search_news')
-        ->with('list_cate',$list_cate)
-        ->with('list_type',$list_type)
-        ->with("popular_news",$popular_news)
-        ->with("most_views",$most_views)
-        ->with("most_comment",$most_comment)
-        ->with("count",$count)
-        ->with("pages",1)
-        ->with("name_search",$name_search)
-        ->with('search_news',$search);
-    }
-    public function searchNewsByNumberPages($name_search,$pages){
-        if(isset($pages) && $pages == 1){
-            $end = 0;
-        }else{
-            $end = ($pages * 5) - 5;
-        }
-        $search = DB::table('news')->where('name_news','like','%'.$name_search.'%')
-        ->take(5)
-        ->skip($end)
-        ->get();
-        $list_cate = DB::table("category")->get();
-        $list_type = DB::table("type_of_cate")->get();
-        $popular_news = DB::table("news as n")
-        ->join('type_of_cate as tc','tc.id_type','=','n.id_type')
-        ->orderBy("n.updated_at","desc")->limit(5)->get();
-        $most_views = DB::table("news as n")
-        ->join('type_of_cate as tc','tc.id_type','=','n.id_type')
-        ->orderBy("n.views_news","desc")->limit(5)->get();
-        $most_comment = DB::table("news as n")
-        ->join('type_of_cate as tc','tc.id_type','=','n.id_type')
-        ->orderBy("n.comment_news","desc")->limit(5)->get();
-        $count_pages = DB::table('news as n')
-        ->join('type_of_cate as tc','tc.id_type','=','n.id_type')
-        ->where('name_news','like','%'.$name_search.'%')
-        ->get();
-        $count = ceil($count_pages->count() / 5);
-        return view('pages.search_news')
-        ->with('list_cate',$list_cate)
-        ->with('list_type',$list_type)
-        ->with("popular_news",$popular_news)
-        ->with("name_search",$name_search)
-        ->with("most_views",$most_views)
-        ->with("most_comment",$most_comment)
-        ->with("count",$count)
-        ->with("pages",$pages)
-        ->with('search_news',$search);
+        // dd($comments);
+        return view('news.details',compact('title','arr','new','relates','childNews','parentNews','dateCreated','mostViewsNews','arrTags','comments'));
     }
 }
 

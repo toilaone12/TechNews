@@ -7,18 +7,31 @@
             <div class="row d-flex justify-content-between py-2 border-bottom">
                 <div class="col-lg-12 d-flex align-items-center">
                     <div class="section-tittle mr-4">
-                    @foreach($parents as $key => $parent)
-                    @if($parent->id_category == $category->id_parent)
-                    <a href="{{route('category.allCategory',['slug' => $parent['slug_category']])}}" class="fs-27 cursor-pointer font-weight-bold text-dark">{{$parent->name_category}}</a>
-                    @endif
-                    @endforeach
+                        {{-- TH danh muc la cha --}}
+                        @if($category->id_parent == 0)
+                        <a href="{{route('category.allCategory',['slug' => $category->slug_category])}}" class="fs-27 cursor-pointer font-weight-bold text-dark">{{$category->name_category}}</a>
+                        @else {{--TH danh muc la con--}}
+                        @foreach($parents as $key => $parent)
+                        @if($parent->id_category == $category->id_parent)
+                        <a href="{{route('category.allCategory',['slug' => $parent['slug_category']])}}" class="fs-27 cursor-pointer font-weight-bold text-dark">{{$parent['name_category']}}</a>
+                        @endif
+                        @endforeach
+                        @endif
                     </div>
                     <div class="child d-flex mt-2">
-                    @foreach($childs as $key => $child)
-                    @if($category->id_parent == $child->id_parent)
-                    <a href="{{route('category.allCategory',['slug' => $child['slug_category']])}}" class="fs-14 cursor-pointer font-weight-bold d-block mr-4 {{$category->slug_category == $child->slug_category ? 'active' : 'text-secondary'}}">{{$child->name_category}}</a>
-                    @endif
-                    @endforeach
+                        @if($category->id_parent == 0)
+                        @foreach($childs as $key => $child)
+                        @if($category->id_category == $child->id_parent)
+                        <a href="{{route('category.allCategory',['slug' => $child['slug_category']])}}" class="fs-14 cursor-pointer font-weight-bold d-block mr-4 {{$category->slug_category == $child->slug_category ? 'active' : 'text-secondary'}}">{{$child->name_category}}</a>
+                        @endif
+                        @endforeach
+                        @else
+                        @foreach($childs as $key => $child)
+                        @if($category->id_parent == $child->id_parent)
+                        <a href="{{route('category.allCategory',['slug' => $child['slug_category']])}}" class="fs-14 cursor-pointer font-weight-bold d-block mr-4 {{$category->slug_category == $child->slug_category ? 'active' : 'text-secondary'}}">{{$child->name_category}}</a>
+                        @endif
+                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>

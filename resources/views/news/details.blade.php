@@ -35,31 +35,24 @@
                     <!-- From -->
                     <div class="row">
                         <div class="col-lg-8">
-                            <form class="form-contact contact_form mb-80" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                            <div class="fs-20 text-dark mb-3">Ý kiến ({{$comments ? count($comments) : 0}})</div>
+                            <form class="form-contact contact_form mb-80" id="comment-news" novalidate="novalidate" data-id="{{$new->id_news}}">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <textarea class="form-control w-100 error" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Enter Message"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input class="form-control error" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input class="form-control error" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <input class="form-control error" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
+                                            <textarea class="form-control w-100 open-modal-comment" name="comment" id="message" style="height: 30px;" placeholder="Chia sẻ ý kiến"></textarea>
+                                            <span class="text-danger fs-13 error-comment"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mt-3">
-                                    <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+                                <div class="d-flex justify-content-end align-items-center">
+                                    @if((request()->cookie('id')))
+                                    <div class="rounded-circle bg-secondary fs-16 text-center text-dark font-weight-bold" style="width: 36px; height: 36px; padding-top: 0.45rem">
+                                    {{strtoupper(substr(request()->cookie('fullname'),0,1))}}
+                                    </div>
+                                    @endif
+                                    <span class="fs-16 mx-3 font-weight-bold">{{request()->cookie('fullname')}}</span>
+                                    <button type="submit" class="rounded border-0 py-2 px-4 fs-14 btn-primary">Gửi</button>
                                 </div>
                             </form>
                         </div>

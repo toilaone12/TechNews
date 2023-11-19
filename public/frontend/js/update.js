@@ -41,7 +41,7 @@ $(document).ready(function(){
                 }
             })
         });
-      } else {
-        console.log("Trình duyệt không hỗ trợ Geolocation.");
-      }
+    } else {
+    console.log("Trình duyệt không hỗ trợ Geolocation.");
+    }
 })

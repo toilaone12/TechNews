@@ -7,6 +7,7 @@
     <title>{{$title}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('frontend/image/favicon.ico')}}">
 
     <!-- CSS here -->
@@ -76,8 +77,8 @@
                                     <nav>
                                         <ul id="navigation">
                                             <li><a href="{{route('page.home')}}">Trang chủ</a></li>
-                                            @foreach($arr as $parent)
-                                            <li><a href="{{route('category.allCategory',['slug' => $parent['parent']['slug']])}}">{{$parent['parent']['name']}}</a>
+                                            @foreach($arr as $key => $parent)
+                                            <li class="{{$key > 7 ? 'z-index-0' : ''}}"><a href="{{route('category.allCategory',['slug' => $parent['parent']['slug']])}}">{{$parent['parent']['name']}}</a>
                                                 @if(count($parent['child']) != 0)
                                                 <ul class="submenu">
                                                     @foreach($parent['child'] as $child)
@@ -201,9 +202,79 @@
         </div>
         <!-- Footer End-->
     </footer>
-
+    <!-- Modal -->
+    <div class="modal fade" id="comment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body pt-0">
+                    <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="button button-contactForm boxed-btn p-2 w-75" id="pills-login-tab" data-bs-toggle="pill" data-bs-target="#pills-login"
+                                type="button" role="tab" aria-controls="pills-login" aria-selected="true">Đăng nhập</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="button button-contactForm boxed-btn p-2 w-75" id="pills-register-tab" data-bs-toggle="pill" data-bs-target="#pills-register"
+                                type="button" role="tab" aria-controls="pills-register" aria-selected="false">Đăng ký</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="pills-tabContent">
+                        <div class="tab-pane fade " id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+                            <div class="text-center fs-20 font-weight-bold mt-3">Đăng nhập</div>
+                            <form class="login">
+                                <div class="mb-3 form-group">
+                                    <label for="loginEmail" class="form-label fs-14">Tài khoản</label>
+                                    <input type="text" class="form-control" name="username" id="loginEmail" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-4 form-group">
+                                    <label for="loginPassword" class="form-label fs-14">Mật khẩu</label>
+                                    <input type="password" class="form-control" id="loginPassword" name="password" required>
+                                </div>
+                                <button type="submit" class="rounded border-0 py-2 px-5 fs-16 btn-primary m-auto d-block">Đăng nhập</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+                            <div class="text-center fs-20 font-weight-bold mt-3">Đăng ký</div>
+                            <div class="my-2 fs-15 text-center message-register"></div>
+                            <form class="register">
+                                <div class="mb-3 form-group">
+                                    <label for="registerName" class="fs-14">Họ tên</label>
+                                    <input type="text" class="form-control" name="fullname" id="registerName" required>
+                                    <span class="text-danger fs-13 error-fullname"></span>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="userName" class="fs-14">Tên tài khoản</label>
+                                    <input type="text" class="form-control" name="username" id="userName" required>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="registerEmail" class="fs-14">Email</label>
+                                    <input type="email" class="form-control" name="email" id="registerEmail" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="registerPassword" class="fs-14">Mật khẩu</label>
+                                    <input type="password" class="form-control" name="password" id="registerPassword" required>
+                                    <span class="text-danger fs-13 error-password"></span>
+                                </div>
+                                <div class="mb-4 form-group">
+                                    <label for="registerPassword" class="fs-14">Nhập lại mật khẩu</label>
+                                    <input type="password" class="form-control" name="repassword" id="registerPassword" required>
+                                    <span class="text-danger fs-13 error-repassword"></span>
+                                </div>
+                                <button type="submit" class="rounded border-0 py-2 px-5 fs-16 btn-primary m-auto d-block">Đăng ký</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
     <!-- JS here -->
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- All JS Custom Plugins Link Here here -->
     <script src="{{asset('frontend/js/vendor/modernizr-3.5.0.min.js')}}"></script>
     <!-- Jquery, Popper, Bootstrap -->
@@ -243,6 +314,113 @@
     <script src="{{asset('frontend/js/plugins.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
     <script src="{{asset('frontend/js/update.js')}}"></script>
+    @if(!request()->cookie('id'))
+    <script>
+        $(document).ready(function(){
+            $('.open-modal-comment').on('focus',function (){
+                // console.log(1);
+                $('#comment').modal('show');
+                $('#pills-login').addClass('show active')
+            })
+            $('#pills-register-tab').on('click',function(){
+                $('#pills-login').removeClass('show active');
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('.login').on('submit',function(e){
+                e.preventDefault();
+                let formData = new FormData($(this)[0]);
+                $.ajax({
+                    method: 'POST',
+                    url: '{{route("customer.login")}}',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        console.log(data);
+                        if(data.res == 'success'){
+                            location.reload()
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                })
+            })
+            $('.register').on('submit',function(e){
+                e.preventDefault();
+                let formData = new FormData($(this)[0]);
+                $.ajax({
+                    method: 'POST',
+                    url: '{{route("customer.register")}}',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        console.log(data);
+                        if(data.res == 'warning'){
+                            $('.error-fullname').text(data.status.fullname);
+                            $('.error-password').text(data.status.password);
+                            $('.error-repassword').text(data.status.repassword);
+                        }else{
+                            if($('.error-fullname').text() != '' || $('.error-password').text() != '' || $('.error-repassword').text() != ''){
+                                $('.error-fullname').text('');
+                                $('.error-password').text('');
+                                $('.error-repassword').text('');
+                            }
+                            $('.message-register').html(`<span class="${data.res == 'success' ? 'text-success' : 'text-danger'}">${data.status}</span>`);
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                })
+            })
+        })
+    </script>
+    @endif
+    <script>
+        $(document).ready(function(){
+            $('#comment-news').on('submit', function(e){
+                e.preventDefault();
+                let formData = new FormData($(this)[0]);
+                formData.append('idUser',"{{request()->cookie('id')}}")
+                formData.append('idNews',$(this).data('id'))
+                $.ajax({
+                    method: 'POST',
+                    url: '{{route("comment.comment")}}',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        console.log(data);
+                        if(data.res == 'warning'){
+                            $('.error-comment').text(data.status.comment);
+                        }else{
+                            if($('.error-comment').text() != ''){
+                                $('.error-comment').text('');
+                            }
+                            // $('.message-register').html(`<span class="${data.res == 'success' ? 'text-success' : 'text-danger'}">${data.status}</span>`);
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                })
+            })
+        })
+    </script>
 </body>
 
 </html>

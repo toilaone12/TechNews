@@ -10,7 +10,8 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\TypeOfCateController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,41 +35,14 @@ Route::prefix('page')->group(function(){
     Route::prefix('tags')->group(function(){
         Route::get('/{slug}',[TagController::class,'find'])->name('tags.find');
     });
+    Route::prefix('customer')->group(function(){
+        Route::post('/login',[CustomerController::class,'login'])->name('customer.login');
+        Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
+    });
+    Route::prefix('comment')->group(function(){
+        Route::post('/comment',[CommentController::class,'comment'])->name('comment.comment');
+    });
 });
-//User
-Route::get('/personal-infomation/{us_name}', [HomeController::class, 'personalInfo']);
-Route::get('/edit-profile/{id_user}', [HomeController::class, 'editUser']);
-Route::post('/save-profile/{id_user}', [HomeController::class, 'saveUser']);
-//Page
-//Login
-Route::get('/login',[HomeController::class, 'login']);
-Route::get('/log-out',[HomeController::class, 'logout']);
-Route::post('/register',[HomeController::class, 'register']);
-Route::post('/log-in',[HomeController::class, 'goToPage']);
-//Category
-Route::get('/category-news/{id_cate}/{pages}',[CateController::class,'category_news']);
-//News
-Route::post('/add-comment/{id_news}',[NewsController::class,'add_comment']);
-Route::post('/search-news',[NewsController::class,'searchNews']);
-Route::get('/search-news/{name_search}/{pages}',[NewsController::class,'searchNewsByNumberPages']);
-//Replies
-Route::post('/replies/{id_news}/{id_comment}',[ReplyController::class,'replies']);
-//SendMail
-Route::post('/send-mail',[HomeController::class, 'sendMail']);
-Route::post('/save-password/{email}',[HomeController::class, 'savePassword']);
-Route::get('/check-email',[HomeController::class, 'checkEmail']);
-Route::get('/email-notification',[HomeController::class, 'email_notification']);
-Route::get('/change-pass/{email}',[HomeController::class, 'changePassword']);
-//Type of Category
-Route::get('/category-type-news/{id_type}/{pages}',[TypeOfCateController::class,'selectType']);
-//FeedBack
-Route::post('/send-fb/{username}',[FeedBackController::class, 'sendFeedBack']);
-//Login FB
-Route::get('/login-fb',[HomeController::class, 'loginFacebook']);
-Route::get('/callback',[HomeController::class, 'callbackFacebook']);
-//Login GG
-Route::get('/login-gg',[HomeController::class, 'loginGG']);
-Route::get('/google/callback',[HomeController::class, 'callbackGG']);
 
 //Admin
 //Category
