@@ -834,7 +834,9 @@
 .cate-block-1,
 .cate-block-2,
 .cate-block-3,
-.cate-block-4 {
+.cate-block-4,
+.cate-block-5,
+.cate-block-6 {
     display: block !important;
     width: 100%;
     padding-left: 10px;
@@ -845,7 +847,9 @@
 .cate-none-1,
 .cate-none-2,
 .cate-none-3,
-.cate-none-4 {
+.cate-none-4,
+.cate-none-5,
+.cate-none-6 {
     display: none;
     /* animation: transitionIn 1s; */
 }

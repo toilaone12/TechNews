@@ -101,8 +101,7 @@
                                         @php
                                         $count2 = 0;
                                         @endphp
-                                        @foreach($parent['arrChild'] as $key => $child)
-                                        @foreach($child['listNews'] as $key1 => $new)
+                                        @foreach($parent['list'] as $key1 => $new)
                                         @php
                                         $count2++;
                                         @endphp
@@ -121,7 +120,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @endforeach
                                         @php
                                         if($count2 == 4){
                                         break;

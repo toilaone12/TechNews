@@ -64,6 +64,24 @@
                         </a>
                     </li>
                     <li>
+                        <a class="nav-link" onclick="myToggle6()" style="cursor: pointer;">
+                            <i class="fa-solid fa-user"></i>
+                            <p>Tài khoản</p>
+                        </a>
+                        <ul class="cate-none-6" id="sub-cate--toggle6">
+                            <li class="sub-cate">
+                                <i class="fa-solid fa-list" style="font-size: 20px"></i>
+                                <a class="sub-cate--title" href="{{route('user.list')}}">Danh sách</a>
+                            </li>
+
+                            <li class="sub-cate">
+                                <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
+                                <a class="sub-cate--title" href="{{route('user.insert')}}">Tạo tài khoản</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <li>
                         <a class="nav-link {{request()->is('admin/category/list') || request()->is('admin/category/insert') ? 'active' : ''}}" onclick="myToggle()" style="cursor: pointer;">
                             <i class="fa-solid fa-list-alt"></i>
                             <p>Danh mục</p>
@@ -114,7 +132,6 @@
                                 <i class="fa-solid fa-circle-plus" style="font-size: 20px"></i>
                                 <a class="sub-cate--title" href="{{route('tags.insert')}}">Thêm</a>
                             </li>
-                            
                         </ul>
                     </li>
                     <li>
@@ -126,6 +143,18 @@
                             <li class="sub-cate">
                                 <i class="fa-solid fa-list" style="font-size: 20px"></i>
                                 <a class="sub-cate--title" href="">Danh sách</a>
+                            </li>    
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link"  onclick="myToggle5()" style="cursor: pointer;">
+                            <i class="fa-solid fa-person"></i>
+                            <p>Khách đăng ký</p>
+                        </a>
+                        <ul class="cate-none-5" id="sub-cate--toggle5">
+                            <li class="sub-cate">
+                                <i class="fa-solid fa-list" style="font-size: 20px"></i>
+                                <a class="sub-cate--title" href="{{route('customer.list')}}">Danh sách</a>
                             </li>    
                         </ul>
                     </li>
@@ -266,6 +295,14 @@
     function myToggle4(){
         let type = document.getElementById('sub-cate--toggle4');
         type.classList.toggle('cate-block-4');
+    }
+    function myToggle5(){
+        let type = document.getElementById('sub-cate--toggle5');
+        type.classList.toggle('cate-block-5');
+    }
+    function myToggle6(){
+        let type = document.getElementById('sub-cate--toggle6');
+        type.classList.toggle('cate-block-6');
     }
 </script>
 

@@ -11,5 +11,5 @@ class Admin extends Model
     protected $table = "admin";
     public $timestamps = true;
     protected $primaryKey = 'id_admin';
-    protected $fillable = ["username","password","level","order_no"];
+    protected $fillable = ["fullname","username","password","email","level"];
 }

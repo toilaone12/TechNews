@@ -142,34 +142,36 @@ class HomeController extends Controller
         }
         // dd($arr);
         $arrNews = [];
-        foreach($parents as $parent){
+        foreach ($parents as $parent) {
             $arrChild = [];
-            $arrNewsChild = [];
-            foreach($childs as $child){
-                $news = News::where('id_category',$child->id_category)->get();
-                // dd($child->id_category);
-                if($child->id_parent == $parent->id_category){
+            $arrIdChild = [];
+            // Lấy tin tức từ danh mục cha
+            $parentNews = News::where('id_category', $parent->id_category)->get();
+
+            foreach ($childs as $child) {
+                if ($child->id_parent == $parent->id_category) {
+                    // Lấy tin tức từ danh mục con
+                    $arrIdChild[] = $child->id_category;
                     $arrChild[] = [
                         'name' => $child->name_category,
                         'slug' => $child->slug_category,
                     ];
-                    $arrNewsChild[] = $news;
                 }
             }
-            $parentNews = News::where('id_category',$parent->id_category)->get();
+            $arrIdChild[] = $parent->id_category;
+
+            $news = News::whereIn('id_category',$arrIdChild)->get();
             $arrNews[] = [
                 'parent' => [
                     'name' => $parent->name_category,
-                    'slug'=> $parent->slug_category,
-                    'listNews' => collect($arrNewsChild)->merge($parentNews)
+                    'slug' => $parent->slug_category,
                 ],
-                'arrChild' => $arrChild
+                'arrChild' => $arrChild,
+                'list' => $news
             ];
-            // dd($arrNewsChild);
         }
         $arr = collect($arr);
-        $arrNews = collect($arrNews);
-        // dd($arrNews);
+        // $arrNews = collect($arrNews);
         return view('home.content',compact('title','arr','hotNews','parents','childs','news','arrNews','newsCreated'));
     }
     public function logout(){

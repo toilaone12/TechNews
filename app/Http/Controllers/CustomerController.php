@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Cookie;
 
 class CustomerController extends Controller
 {
-    //
+    //admin
+    function list(){
+        $title = 'Danh sách khách hàng';
+        $customers = Customer::all();
+        return view('customer.list',compact('customers','title'));
+    }
+    //page
     function login(Request $request){
         $data = $request->all();
         $login = Customer::where('username',$data['username'])->where('password_user',md5($data['password']))->first();

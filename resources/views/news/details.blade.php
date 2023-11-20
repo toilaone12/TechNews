@@ -8,9 +8,15 @@
                 <div class="col-lg-9">
                     <div class="d-flex align-items-center justify-content-between mt-5 mb-3">
                         <div class="d-flex align-items-baseline">
-                            <a href="{{route('category.allCategory',['slug' => $parentNews->slug_category])}}"><span class="fs-14 mr-2 text-primary">{{$parentNews->name_category}}</span></a>
+                            <a href="{{route('category.allCategory',['slug' => $parentNews ? $parentNews->slug_category : $childNews->slug_category])}}">
+                                <span class="fs-14 mr-2 text-primary">
+                                    {{$parentNews ? $parentNews->name_category : $childNews->name_category}}
+                                </span>
+                            </a>
+                            @if($parentNews)
                             <i class="fa-solid fa-angle-right text-secondary fs-12"></i>
                             <a href="{{route('category.allCategory',['slug' => $childNews->slug_category])}}"><span class="fs-14 ml-2 text-secondary">{{$childNews->name_category}}</span></a>
+                            @endif
                         </div>
                         <span class="fs-14 text-secondary">{{$dateCreated}}</span>
                     </div>

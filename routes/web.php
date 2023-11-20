@@ -12,6 +12,7 @@ use App\Http\Controllers\SlideController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,9 +80,18 @@ Route::prefix('admin')->group(function(){
         Route::post('/save',[TagController::class,'save'])->name('tags.save');
         Route::post('/change',[TagController::class,'change'])->name('tags.change');
     });
-    // Route::get('/details-news/{id_news}',[NewsController::class,'detailNews'])->name('news.detail');
-    Route::get('/active-news/{level_news}/{id_type}/{id_news}',[NewsController::class,'changeDisplayNews'])->name('new.active');
-    //Search
-    // Route::get('/search-cate',[SearchController::class,'searchForm']);
-    Route::post('/form-search',[SearchController::class,'searchForm']);
+    //Customer
+    Route::prefix('customer')->group(function(){
+        Route::get('/list',[CustomerController::class,'list'])->name('customer.list');
+    });
+    //User
+    Route::prefix('user')->group(function(){
+        Route::get('/list',[UserController::class,'list'])->name('user.list');
+        Route::get('/insert',[UserController::class,'insert'])->name('user.insert');
+        Route::get('/edit',[UserController::class,'edit'])->name('user.edit');
+        Route::get('/permission',[UserController::class,'permission'])->name('user.permission');
+        Route::get('/delete',[UserController::class,'delete'])->name('user.delete');
+        Route::post('/save',[UserController::class,'save'])->name('user.save');
+        Route::post('/change',[UserController::class,'change'])->name('user.change');
+    });
 });

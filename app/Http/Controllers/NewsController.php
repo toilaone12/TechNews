@@ -179,8 +179,9 @@ class NewsController extends Controller
         $dateCreated = date('j/n/Y, H:i',strtotime($new->created_at));
         $dateCreated = $dayCreated . ', ' . $dateCreated . ' (GMT+7)';
         // dd($dateCreated);
+        $parentNews = '';
         $childNews = Category::where('id_category',$new->id_category)->first();
-        if($childNews->id_parent == 0) $parentNews = Category::where('id_category',$childNews->id_parent)->first();
+        if($childNews->id_parent != 0) $parentNews = Category::where('id_category',$childNews->id_parent)->first();  
         $relates = News::where('id_category',$new->id_category)->where('id_news','!=',$new->id_news)->limit(3)->get();
         $mostViewsNews = News::where('id_category','!=',$new->id_category)->where('id_news','!=',$new->id_news)->orderBy('number_views','desc')->limit(3)->get();
         $title = $new->title_news;
