@@ -65,9 +65,8 @@
                                     {{request()->cookie('fullname')}}
                                 </span>
                                 <div class="dropdown-menu mt-3" aria-labelledby="setting">
-                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="#">Thông tin chung</a>
-                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="#">Đổi mật khẩu</a>
-                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="#">Đăng xuất</a>
+                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="{{route('customer.setting')}}">Thông tin chung</a>
+                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="{{route('customer.logout')}}">Đăng xuất</a>
                                 </div>
                                 @else
                                 <i class="rounded-circle border fa-regular fa-user fs-18 mr-2 text-center pt-2" style="width: 36px; height: 36px;"></i>
@@ -238,6 +237,7 @@
                     <div class="tab-content mt-3" id="pills-tabContent">
                         <div class="tab-pane fade " id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
                             <div class="text-center fs-20 font-weight-bold mt-3">Đăng nhập</div>
+                            <div class="alert-login"></div>
                             <form class="login">
                                 <div class="mb-3 form-group">
                                     <label for="loginEmail" class="form-label fs-14">Tài khoản</label>
@@ -337,10 +337,12 @@
             })
             $('#pills-register-tab').on('click',function(){
                 $('#pills-login').removeClass('show active');
+                $('#pills-register').addClass('show active')
             })
             $('.open-login').on('click',function(){
                 $('#comment').modal('show');
                 $('#pills-login').addClass('show active')
+                if($('#pills-register').hasClass('show')) $('#pills-register').removeClass('show active')
             })
         })
     </script>
@@ -359,9 +361,10 @@
                     processData: false,
                     contentType: false,
                     success: function(data){
-                        console.log(data);
                         if(data.res == 'success'){
                             location.reload()
+                        }else{
+                            $('.alert-login').html(`<div class="alert alert-danger alert-login alert-dismissible small">${data.status}</div>`)
                         }
                     },
                     error: function(err){

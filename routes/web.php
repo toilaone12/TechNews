@@ -39,6 +39,10 @@ Route::prefix('page')->group(function(){
     Route::prefix('customer')->group(function(){
         Route::post('/login',[CustomerController::class,'login'])->name('customer.login');
         Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
+        Route::post('/change',[CustomerController::class,'change'])->name('customer.change');
+        Route::get('/setting',[CustomerController::class,'setting'])->name('customer.setting');
+        Route::get('/delete',[CustomerController::class,'delete'])->name('customer.delete');
+        Route::get('/logout',[CustomerController::class,'logout'])->name('customer.logout');
     });
     Route::prefix('comment')->group(function(){
         Route::post('/comment',[CommentController::class,'comment'])->name('comment.comment');
@@ -88,9 +92,9 @@ Route::prefix('admin')->group(function(){
     Route::prefix('user')->group(function(){
         Route::get('/list',[UserController::class,'list'])->name('user.list');
         Route::get('/insert',[UserController::class,'insert'])->name('user.insert');
-        Route::get('/edit',[UserController::class,'edit'])->name('user.edit');
-        Route::get('/permission',[UserController::class,'permission'])->name('user.permission');
+        Route::get('/setting',[UserController::class,'setting'])->name('user.setting');
         Route::get('/delete',[UserController::class,'delete'])->name('user.delete');
+        Route::post('/permission',[UserController::class,'permission'])->name('user.permission');
         Route::post('/save',[UserController::class,'save'])->name('user.save');
         Route::post('/change',[UserController::class,'change'])->name('user.change');
     });

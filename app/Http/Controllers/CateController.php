@@ -17,7 +17,7 @@ class CateController extends Controller
 {
     //
     public function listCate(){
-        $list = Category::all();
+        $list = Category::paginate(10);
         $parents = Category::where('id_parent',0)->get();
         $title = 'Danh sách danh mục';
         return view('category.list',compact('list','title','parents')); 

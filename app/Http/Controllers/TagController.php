@@ -15,7 +15,7 @@ class TagController extends Controller
     //
     public function list(){
         $title = 'Danh sách từ khóa';
-        $tags = Tag::all();
+        $tags = Tag::paginate(10);
         return view('tag.list',compact('title','tags')); 
     }
 

@@ -73,7 +73,7 @@ class NewsController extends Controller
     }
     public function listNews(){
         $title = 'Danh sách tin tức';
-        $list = News::all();
+        $list = News::paginate(5);
         $categorys = Category::all();
         $tags = Tag::all();
         return view('news.list',compact('title','list','categorys','tags'));

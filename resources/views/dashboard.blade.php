@@ -58,7 +58,7 @@
                 </div>
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard.html">
+                        <a class="nav-link" href="{{route('admin.dashboard')}}">
                             <i class="nc-icon nc-chart-pie-35"></i>
                             <p>Trang chủ</p>
                         </a>
@@ -198,7 +198,7 @@
                         </ul>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('admin.logout')}}">
+                                <a class="nav-link" href="{{route('user.setting')}}">
                                     <span class="no-icon">Cài đặt</span>
                                 </a>
                             </li>
@@ -257,6 +257,7 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 <script src="{{asset('backend/js/demo.js')}}"></script>
 <script src="{{asset('backend/js/main.js')}}"></script>
@@ -275,6 +276,15 @@
     CKEDITOR.config.ForceSimpleAmpersand = true;
 
     $(document).ready(function() {
+        $('.permission-user').on('click',function(){
+            let id = $(this).data('id');
+            let level = $('.level-'+id).data('level');
+            // console.log(level);
+            let html = "";
+            html += `<option value="0" ${!level ? 'selected' : ''}>Quản trị viên</option>`
+            html += `<option value="1" ${level ? 'selected' : ''}>Nhân viên</option>`
+            $('.list-role').html(html);
+        })
     });
     function myToggle(){
         let cate = document.getElementById('sub-cate--toggle');

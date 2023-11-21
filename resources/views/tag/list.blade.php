@@ -31,4 +31,5 @@
         </table>
     </div>
 </div>
+{!!$tags->links('paginations.page')!!}
 @endsection

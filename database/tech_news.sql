@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 20, 2023 lúc 05:37 PM
+-- Thời gian đã tạo: Th10 21, 2023 lúc 05:43 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -44,8 +44,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id_admin`, `fullname`, `username`, `password`, `email`, `level`, `created_at`, `updated_at`) VALUES
 (1, 'Bảo Sơn', 'son', 'e10adc3949ba59abbe56e057f20f883e', 'toilaone12@gmail.com', 0, '2023-11-06 16:08:46', '2023-11-06 16:08:46'),
-(4, 'Nga', 'nga', 'e10adc3949ba59abbe56e057f20f883e', 'bokazem69@gmail.com', 1, '2023-11-20 16:36:32', '2023-11-20 16:36:32'),
-(5, 'Tuấn', 'tuan', '69b21e9c5b38d7c34449a5b290363487', 'baooson3005@gmail.com', 0, '2023-11-20 16:37:09', '2023-11-20 16:37:09');
+(7, 'Nga', 'nga', 'aadc03fecca9b5cc2fd64b333cb0875e', 'baooson3005@gmail.com', 1, '2023-11-21 15:37:33', '2023-11-21 15:56:10');
 
 -- --------------------------------------------------------
 
@@ -252,10 +251,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `fullname_user`, `username`, `email_user`, `password_user`, `created_at`, `updated_at`) VALUES
-(1, 'Bảo Sơn', 'son', 'baooson3005@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2023-11-19 07:50:06', '2023-11-19 07:50:06'),
 (2, 'Bảo Sơn', 'son123', 'toilaone12@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2023-11-19 07:56:15', '2023-11-19 07:56:15'),
 (3, 'Bảo Sơn', 'son12345', 'toilaone12@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2023-11-19 07:58:24', '2023-11-19 07:58:24'),
-(4, 'dat', 'son66', 'baooson3005@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2023-11-19 07:58:52', '2023-11-19 07:58:52');
+(5, 'Tuấn', 'tuan', 'baooson3005@gmail.com', '69b21e9c5b38d7c34449a5b290363487', '2023-11-21 16:31:59', '2023-11-21 16:31:59'),
+(6, 'Nga', 'nga', 'nga@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2023-11-21 16:33:26', '2023-11-21 16:33:26'),
+(7, 'hải', 'hai', 'hai@gmail.com', '3eaba18b022be27a509fd60c1d35a342', '2023-11-21 16:34:42', '2023-11-21 16:34:42'),
+(8, 'Thành', 'thanh', 'thanh@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2023-11-21 16:36:46', '2023-11-21 16:43:27');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -311,7 +312,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT cho bảng `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_admin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_admin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -347,7 +348,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

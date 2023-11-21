@@ -44,4 +44,5 @@
         </table>
     </div>
 </div>
+{!!$list->links('paginations.page')!!}
 @endsection
