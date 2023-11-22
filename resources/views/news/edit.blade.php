@@ -31,8 +31,8 @@
                                             </div>
                                         </div>
                                         <div class="col-6 ps-5">
-                                            <label class="ms-5">Ảnh gốc</label>
-                                            <div class="image-container ms-5">
+                                            <label class="">Ảnh gốc</label>
+                                            <div class="image-container ">
                                                 <img src="{{asset($new->image_news)}}" alt="Your Image" class="img-fluid image-original">
                                                 <input type="hidden" value="{{asset($new->image_news)}}" name="image_original">
                                             </div>
@@ -40,14 +40,28 @@
                                     </div>
                                 </div>
                                 <div class="col-3">
-                                    <div class="form-group me-5">
-                                        <label for="">Thuộc danh mục</label>
-                                        <select name="id_category" id="" class="form-select">
-                                            <option value="">---Chuyên mục---</option>
-                                            @foreach($categorys as $category)
-                                            <option value="{{$category->id_category}}" {{$category->id_category == $new->id_category ? 'selected' : ''}}>{{$category->name_category}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group me-5">
+                                                <label for="">Thuộc danh mục cha</label>
+                                                <select name="id_parent" id="" class="form-select choose-parent">
+                                                    <option value="">---Chuyên mục---</option>
+                                                    @foreach($categorys as $category)
+                                                    @if($category->id_parent == 0)
+                                                    <option value="{{$category->id_category}}" {{$category->id_category == $new->id_category ? 'selected' : ''}}>{{$category->name_category}}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="form-group me-5">
+                                                <label for="">Thuộc danh mục con</label>
+                                                <select name="id_category" id="" class="form-select list-child">
+                                                    <option value="">---Chuyên mục---</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-3 mt-4">

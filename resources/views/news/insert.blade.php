@@ -30,22 +30,39 @@
                                             </div>
                                         </div>
                                         <div class="col-6 ps-5">
-                                            <label class="ms-5">Ảnh gốc</label>
-                                            <div class="image-container ms-5">
+                                            <label class="">Ảnh gốc</label>
+                                            <div class="image-container ">
                                                 <img src="https://i1-vnexpress.vnecdn.net/2023/11/10/lanbien-3-jpg-1699628126-7996-1699628135.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=ss-Kzl8_0wsDZzMooyAnNg" alt="Your Image" class="img-fluid image-original">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
-                                    <div class="form-group me-5">
-                                        <label for="">Thuộc danh mục</label>
-                                        <select name="id_category" id="" class="form-select">
-                                            <option value="">---Chuyên mục---</option>
-                                            @foreach($categorys as $category)
-                                            <option value="{{$category->id_category}}">{{$category->name_category}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group me-5">
+                                                <label for="">Thuộc danh mục cha</label>
+                                                <select name="id_parent" id="" class="form-select choose-parent">
+                                                    <option value="">---Chuyên mục---</option>
+                                                    @foreach($categorys as $category)
+                                                    @if($category->id_parent == 0)
+                                                    <option value="{{$category->id_category}}">{{$category->name_category}}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                                @error('id_parent')
+                                                <p class="text-danger">{{$message}}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="form-group me-5">
+                                                <label for="">Thuộc danh mục con</label>
+                                                <select name="id_category" id="" class="form-select list-child">
+                                                    <option value="">---Chuyên mục---</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-3 mt-4">

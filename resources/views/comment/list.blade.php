@@ -35,12 +35,14 @@
                     @endforeach
                     <td>
                         {{$comment->comment}}
+                        @php $idReply = '' @endphp
                         @foreach($comments as $reply)
-                        @if($reply->id_reply == $comment->id_comment)
+                        @if($reply->id_reply == $comment->id_comment && $reply->id_user == 0)
+                        @php $idReply = $reply->id_reply @endphp
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <span class="text-danger me-1">Quản trị viên: </span>
-                                <span class="me-4 reply-{{$reply->id_reply}}">
+                                <span class="me-4 reply-{{$reply->id_comment}}">
                                     {{$reply->comment}}
                                 </span>
                                 <a data-toggle="modal" data-target="#update" data-id="{{$reply->id_comment}}" class="btn btn-success update-comment">Sửa bình luận</a>
@@ -50,7 +52,7 @@
                         @endforeach
                     </td>
                     <td>
-                        <a data-toggle="modal" data-target="#reply" data-id="{{$comment->id_comment}}" class="btn btn-primary reply-comment">Phản hồi</a>
+                        <a data-toggle="modal" data-target="#reply" data-id="{{$comment->id_comment}}"  class="btn btn-primary reply-comment {{$idReply ? 'disabled' : ''}}" style="color: #0d6efd !important;">Phản hồi</a>
                     </td>
                 </tr>
                 @endif
@@ -94,7 +96,7 @@
 <!-- Modal -->
 <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="{{route('comment.reply')}}" method="post">
+        <form action="{{route('comment.update')}}" method="post">
             @csrf
             <input type="hidden" name="id" value="" class="id-comment-update">
             <input type="hidden" name="id_news" value="" class="id-news-update">

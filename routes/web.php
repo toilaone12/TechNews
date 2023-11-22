@@ -63,6 +63,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/delete',[CateController::class,'delete'])->name('category.delete');
         Route::post('/save',[CateController::class,'saveCate'])->name('category.save');
         Route::post('/edit',[CateController::class,'editCate'])->name('category.change');
+        Route::post('/choose',[CateController::class,'choose'])->name('category.choose');
     });
 
     //News
@@ -101,7 +102,7 @@ Route::prefix('admin')->group(function(){
     //Comment
     Route::prefix('comment')->group(function(){
         Route::get('/list',[CommentController::class,'list'])->name('comment.list');
-        Route::post('/edit',[CommentController::class,'edit'])->name('comment.edit');
+        Route::post('/update',[CommentController::class,'update'])->name('comment.update');
         Route::post('/reply',[CommentController::class,'reply'])->name('comment.reply');
     });
 });

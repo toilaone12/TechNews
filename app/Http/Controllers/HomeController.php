@@ -116,7 +116,7 @@ class HomeController extends Controller
         $title = 'Trang chủ';
         $parents = Category::where('id_parent',0)->get();
         $childs = Category::where('id_parent','!=',0)->get();
-        $hotNews = News::where('is_hot',1)->limit(3)->get();
+        $hotNews = News::where('is_hot',1)->orderBy('id_news','desc')->limit(3)->get();
         $news = News::all();
         $newsCreated = News::orderBy('updated_at','desc')->limit(4)->get();
         $arr = [];
@@ -173,20 +173,6 @@ class HomeController extends Controller
         $arr = collect($arr);
         // $arrNews = collect($arrNews);
         return view('home.content',compact('title','arr','hotNews','parents','childs','news','arrNews','newsCreated'));
-    }
-    public function logout(){
-        // if(Cookie::has('not_remember')){
-        //     Cookie::queue('remember_email','',3600);
-        //     Cookie::queue('remember_password','',3600);
-        //     Cookie::queue('no_remember','',3600);
-        //     echo "1";
-        // }else if(Cookie::has('remember')){
-        //     Cookie::queue('remember_email',Cookie::get('remember_email'),3600);
-        //     Cookie::queue('remember_password',Cookie::get('remember_password'),3600);
-        //     Cookie::queue('remember','',3600);
-        //     echo "2";
-        // }
-        return Redirect::to('/login');
     }
     public function checkEmail(){
         return view('pages.send_mail');

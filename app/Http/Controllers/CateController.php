@@ -85,13 +85,19 @@ class CateController extends Controller
             return redirect()->route('category.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
+
+    public function choose(Request $request){
+        $data = $request->all();
+        $child = Category::where('id_parent',$data['choose'])->get();
+        return response()->json(['res' => 'success', 'child' => $child]);
+    }
     //End Admin
     //Start Pages
     public function category($slug){
         $category = Category::where('slug_category',$slug)->first();
         $childInCategory = Category::where('id_parent',$category->id_parent)->where('id_category','!=',$category->id_category)->limit(3)->get();
         $news =  News::where('id_category',$category->id_category)->orderBy('updated_at','desc')->paginate(2);
-        $differentNews = News::where('id_category','!=',$category->id_category)->get();
+        $differentNews = News::where('id_category','!=',$category->id_category)->orderBy('id_news','desc')->limit(5)->get();
         $title = $category->name_category;
         $parents = Category::where('id_parent',0)->get();
         $childs = Category::where('id_parent','!=',0)->get();

@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\News;
 use App\Models\Tag;
 use App\Models\Comment;
+use App\Models\Customer;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -30,14 +31,15 @@ class NewsController extends Controller
     }
     public function insertNews(Request $request){
         $data = $request->all();
+        $idCate = $data['id_category'] ? $data['id_category'] : $data['id_parent'];
         Validator::make($data,[
             'title' => ['required'],
             'summary' => ['required'],
             'content' => ['required'],
             'image' => ['required','image','mimes:jpeg,png,jpg,gif'],
-            'id_category' => ['required']
+            'id_parent' => ['required']
         ],[
-            'id_category.required' => 'Bắt buộc phải có danh mục',
+            'id_parent.required' => 'Bắt buộc phải có danh mục',
             'title.required' => 'Bắt buộc phải có tiêu đề',
             'summary.required' => 'Bắt buộc phải có phụ đề',
             'content.required' => 'Bắt buộc phải có nội dung',
@@ -52,7 +54,7 @@ class NewsController extends Controller
         $image->storeAs('public/news',$imageName.'-'.date('His').'.'.$imageFile);
         // dd(isset($data['is_hot']) ? $data['is_hot'] : 1);
         $data = [
-            'id_category' => $data['id_category'],
+            'id_category' => $idCate,
             'image_news' => $imageNews,
             'title_news' =>  $data['title'],
             'slug_news' => Str::slug($data['title'],'-'),
@@ -66,9 +68,9 @@ class NewsController extends Controller
         // dd($data);
         $insert = News::create($data);
         if($insert){
-            return redirect()->route('news.insert')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
+            return redirect()->route('news.list')->with('message','<div class="alert alert-success alert-dismissible">Thêm thành công!</div>');
         }else{
-            return redirect()->route('news.insert')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
+            return redirect()->route('news.list')->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
         }
     }
     public function listNews(){
@@ -183,11 +185,13 @@ class NewsController extends Controller
         $childNews = Category::where('id_category',$new->id_category)->first();
         if($childNews->id_parent != 0) $parentNews = Category::where('id_category',$childNews->id_parent)->first();  
         $relates = News::where('id_category',$new->id_category)->where('id_news','!=',$new->id_news)->limit(3)->get();
+        // dd($relates);
         $mostViewsNews = News::where('id_category','!=',$new->id_category)->where('id_news','!=',$new->id_news)->orderBy('number_views','desc')->limit(3)->get();
         $title = $new->title_news;
         $parents = Category::where('id_parent',0)->get();
         $childs = Category::where('id_parent','!=',0)->get();
         $comments = Comment::where('id_news',$new->id_news)->get();
+        $customers = Customer::all();
         $tags = json_decode($new->tag_news);
         $arrTags = [];
         $arr = [];
@@ -222,7 +226,7 @@ class NewsController extends Controller
         }
         $arrTags = collect($arrTags);
         // dd($parentNews);
-        return view('news.details',compact('title','arr','new','relates','childNews','parentNews','dateCreated','mostViewsNews','arrTags','comments'));
+        return view('news.details',compact('title','arr','new','relates','childNews','parentNews','dateCreated','mostViewsNews','arrTags','comments','customers'));
     }
 }
 

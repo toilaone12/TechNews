@@ -41,7 +41,7 @@
                                     </ul>
                                 </div>
                                 <div class="header-info-right">
-                            
+
                                 </div>
                             </div>
                         </div>
@@ -219,19 +219,17 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
                 <div class="modal-body pt-0">
                     <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="button button-contactForm boxed-btn p-2 w-75" id="pills-login-tab" data-bs-toggle="pill" data-bs-target="#pills-login"
-                                type="button" role="tab" aria-controls="pills-login" aria-selected="true">Đăng nhập</button>
+                            <button class="button button-contactForm boxed-btn p-2 w-75" id="pills-login-tab" data-bs-toggle="pill" data-bs-target="#pills-login" type="button" role="tab" aria-controls="pills-login" aria-selected="true">Đăng nhập</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="button button-contactForm boxed-btn p-2 w-75" id="pills-register-tab" data-bs-toggle="pill" data-bs-target="#pills-register"
-                                type="button" role="tab" aria-controls="pills-register" aria-selected="false">Đăng ký</button>
+                            <button class="button button-contactForm boxed-btn p-2 w-75" id="pills-register-tab" data-bs-toggle="pill" data-bs-target="#pills-register" type="button" role="tab" aria-controls="pills-register" aria-selected="false">Đăng ký</button>
                         </li>
                     </ul>
                     <div class="tab-content mt-3" id="pills-tabContent">
@@ -286,161 +284,199 @@
         </div>
     </div>
 </body>
-    <!-- JS here -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- All JS Custom Plugins Link Here here -->
-    <script src="{{asset('frontend/js/vendor/modernizr-3.5.0.min.js')}}"></script>
-    <!-- Jquery, Popper, Bootstrap -->
-    <script src="{{asset('frontend/js/vendor/jquery-1.12.4.min.js')}}"></script>
-    <script src="{{asset('frontend/js/popper.min.js')}}"></script>
-    <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
-    <!-- Jquery Mobile Menu -->
-    <script src="{{asset('frontend/js/jquery.slicknav.min.js')}}"></script>
+<!-- JS here -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- All JS Custom Plugins Link Here here -->
+<script src="{{asset('frontend/js/vendor/modernizr-3.5.0.min.js')}}"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="{{asset('frontend/js/vendor/jquery-1.12.4.min.js')}}"></script>
+<script src="{{asset('frontend/js/popper.min.js')}}"></script>
+<script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
+<!-- Jquery Mobile Menu -->
+<script src="{{asset('frontend/js/jquery.slicknav.min.js')}}"></script>
 
-    <!-- Jquery Slick , Owl-Carousel Plugins -->
-    <script src="{{asset('frontend/js/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('frontend/js/slick.min.js')}}"></script>
-    <!-- Date Picker -->
-    <script src="{{asset('frontend/js/gijgo.min.js')}}"></script>
-    <!-- One Page, Animated-HeadLin -->
-    <script src="{{asset('frontend/js/wow.min.js')}}"></script>
-    <script src="{{asset('frontend/js/animated.headline.js')}}"></script>
-    <script src="{{asset('frontend/js/jquery.magnific-popup.js')}}"></script>
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="{{asset('frontend/js/owl.carousel.min.js')}}"></script>
+<script src="{{asset('frontend/js/slick.min.js')}}"></script>
+<!-- Date Picker -->
+<script src="{{asset('frontend/js/gijgo.min.js')}}"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="{{asset('frontend/js/wow.min.js')}}"></script>
+<script src="{{asset('frontend/js/animated.headline.js')}}"></script>
+<script src="{{asset('frontend/js/jquery.magnific-popup.js')}}"></script>
 
-    <!-- Breaking New Pluging -->
-    <script src="{{asset('frontend/js/jquery.ticker.js')}}"></script>
-    <script src="{{asset('frontend/js/site.js')}}"></script>
+<!-- Breaking New Pluging -->
+<script src="{{asset('frontend/js/jquery.ticker.js')}}"></script>
+<script src="{{asset('frontend/js/site.js')}}"></script>
 
-    <!-- Scrollup, nice-select, sticky -->
-    <script src="{{asset('frontend/js/jquery.scrollUp.min.js')}}"></script>
-    <script src="{{asset('frontend/js/jquery.nice-select.min.js')}}"></script>
-    <script src="{{asset('frontend/js/jquery.sticky.js')}}"></script>
+<!-- Scrollup, nice-select, sticky -->
+<script src="{{asset('frontend/js/jquery.scrollUp.min.js')}}"></script>
+<script src="{{asset('frontend/js/jquery.nice-select.min.js')}}"></script>
+<script src="{{asset('frontend/js/jquery.sticky.js')}}"></script>
 
-    <!-- contact js -->
-    <script src="{{asset('frontend/js/contact.js')}}"></script>
-    <script src="{{asset('frontend/js/jquery.form.js')}}"></script>
-    <script src="{{asset('frontend/js/jquery.validate.min.js')}}"></script>
-    <script src="{{asset('frontend/js/mail-script.js')}}"></script>
-    <script src="{{asset('frontend/js/jquery.ajaxchimp.min.js')}}"></script>
+<!-- contact js -->
+<script src="{{asset('frontend/js/contact.js')}}"></script>
+<script src="{{asset('frontend/js/jquery.form.js')}}"></script>
+<script src="{{asset('frontend/js/jquery.validate.min.js')}}"></script>
+<script src="{{asset('frontend/js/mail-script.js')}}"></script>
+<script src="{{asset('frontend/js/jquery.ajaxchimp.min.js')}}"></script>
 
-    <!-- Jquery Plugins, main Jquery -->
-    <script src="{{asset('frontend/js/plugins.js')}}"></script>
-    <script src="{{asset('frontend/js/main.js')}}"></script>
-    <script src="{{asset('frontend/js/update.js')}}"></script>
-    @if(!request()->cookie('id'))
-    <script>
-        $(document).ready(function(){
-            $('.open-modal-comment').on('focus',function (){
-                // console.log(1);
-                $('#comment').modal('show');
-                $('#pills-login').addClass('show active')
-            })
-            $('#pills-register-tab').on('click',function(){
-                $('#pills-login').removeClass('show active');
-                $('#pills-register').addClass('show active')
-            })
-            $('.open-login').on('click',function(){
-                $('#comment').modal('show');
-                $('#pills-login').addClass('show active')
-                if($('#pills-register').hasClass('show')) $('#pills-register').removeClass('show active')
+<!-- Jquery Plugins, main Jquery -->
+<script src="{{asset('frontend/js/plugins.js')}}"></script>
+<script src="{{asset('frontend/js/main.js')}}"></script>
+<script src="{{asset('frontend/js/update.js')}}"></script>
+@if(!request()->cookie('id'))
+<script>
+    $(document).ready(function() {
+        $('.open-modal-comment').on('focus', function() {
+            // console.log(1);
+            $('#comment').modal('show');
+            $('#pills-login').addClass('show active')
+        })
+        $('#pills-register-tab').on('click', function() {
+            $('#pills-login').removeClass('show active');
+            $('#pills-register').addClass('show active')
+        })
+        $('.open-login').on('click', function() {
+            $('#comment').modal('show');
+            $('#pills-login').addClass('show active')
+            if ($('#pills-register').hasClass('show')) $('#pills-register').removeClass('show active')
+        })
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $('.login').on('submit', function(e) {
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            $.ajax({
+                method: 'POST',
+                url: '{{route("customer.login")}}',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data.res == 'success') {
+                        location.reload()
+                    } else {
+                        $('.alert-login').html(`<div class="alert alert-danger alert-login alert-dismissible small">${data.status}</div>`)
+                    }
+                },
+                error: function(err) {
+                    console.log(err);
+                }
             })
         })
-    </script>
-    <script>
-        $(document).ready(function(){
-            $('.login').on('submit',function(e){
-                e.preventDefault();
-                let formData = new FormData($(this)[0]);
-                $.ajax({
-                    method: 'POST',
-                    url: '{{route("customer.login")}}',
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    contentType: false,
-                    success: function(data){
-                        if(data.res == 'success'){
-                            location.reload()
-                        }else{
-                            $('.alert-login').html(`<div class="alert alert-danger alert-login alert-dismissible small">${data.status}</div>`)
+        $('.register').on('submit', function(e) {
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            $.ajax({
+                method: 'POST',
+                url: '{{route("customer.register")}}',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data);
+                    if (data.res == 'warning') {
+                        $('.error-fullname').text(data.status.fullname);
+                        $('.error-password').text(data.status.password);
+                        $('.error-repassword').text(data.status.repassword);
+                    } else {
+                        if ($('.error-fullname').text() != '' || $('.error-password').text() != '' || $('.error-repassword').text() != '') {
+                            $('.error-fullname').text('');
+                            $('.error-password').text('');
+                            $('.error-repassword').text('');
                         }
-                    },
-                    error: function(err){
-                        console.log(err);
+                        $('.message-register').html(`<span class="${data.res == 'success' ? 'text-success' : 'text-danger'}">${data.status}</span>`);
                     }
-                })
-            })
-            $('.register').on('submit',function(e){
-                e.preventDefault();
-                let formData = new FormData($(this)[0]);
-                $.ajax({
-                    method: 'POST',
-                    url: '{{route("customer.register")}}',
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    contentType: false,
-                    success: function(data){
-                        console.log(data);
-                        if(data.res == 'warning'){
-                            $('.error-fullname').text(data.status.fullname);
-                            $('.error-password').text(data.status.password);
-                            $('.error-repassword').text(data.status.repassword);
-                        }else{
-                            if($('.error-fullname').text() != '' || $('.error-password').text() != '' || $('.error-repassword').text() != ''){
-                                $('.error-fullname').text('');
-                                $('.error-password').text('');
-                                $('.error-repassword').text('');
-                            }
-                            $('.message-register').html(`<span class="${data.res == 'success' ? 'text-success' : 'text-danger'}">${data.status}</span>`);
-                        }
-                    },
-                    error: function(err){
-                        console.log(err);
-                    }
-                })
+                },
+                error: function(err) {
+                    console.log(err);
+                }
             })
         })
-    </script>
-    @endif
-    <script>
-        $(document).ready(function(){
-            $('#comment-news').on('submit', function(e){
-                e.preventDefault();
-                let formData = new FormData($(this)[0]);
-                formData.append('idUser',"{{request()->cookie('id')}}")
-                formData.append('idNews',$(this).data('id'))
-                $.ajax({
-                    method: 'POST',
-                    url: '{{route("comment.comment")}}',
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    contentType: false,
-                    success: function(data){
-                        console.log(data);
-                        if(data.res == 'warning'){
-                            $('.error-comment').text(data.status.comment);
-                        }else{
-                            if($('.error-comment').text() != ''){
-                                $('.error-comment').text('');
-                            }
-                            // $('.message-register').html(`<span class="${data.res == 'success' ? 'text-success' : 'text-danger'}">${data.status}</span>`);
+    })
+</script>
+@endif
+<script>
+    $(document).ready(function() {
+        $('#comment-news').on('submit', function(e) {
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            formData.append('idUser', "{{request()->cookie('id')}}")
+            formData.append('idNews', $(this).data('id'))
+            $.ajax({
+                method: 'POST',
+                url: '{{route("comment.comment")}}',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data);
+                    if (data.res == 'warning') {
+                        $('.error-comment').text(data.status.comment);
+                    } else {
+                        if ($('.error-comment').text() != '') {
+                            $('.error-comment').text('');
                         }
-                    },
-                    error: function(err){
-                        console.log(err);
+                        // $('.message-register').html(`<span class="${data.res == 'success' ? 'text-success' : 'text-danger'}">${data.status}</span>`);
                     }
-                })
+                },
+                error: function(err) {
+                    console.log(err);
+                }
             })
         })
-    </script>
+        $('.reply-comment').on('click', function() {
+            let id = $(this).data('id');
+            // Tạo HTML của form phản hồi
+            let formHtml = `
+                    <form class="contact_form" action="{{route('comment.reply')}}" method="POST" novalidate="novalidate">
+                        @csrf
+                        <input type="hidden" name="id_news" value="${"{{$new->id_news}}"}">
+                        <input type="hidden" name="id" value="${id}">
+                        <input type="hidden" name="id_user" value="${"{{(request()->cookie('id'))}}"}">
+                        <input type="hidden" name="is_page" value="1">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <textarea class="form-control w-100 open-modal-comment" name="reply" id="message" style="height: 70px;" placeholder="Chia sẻ ý kiến"></textarea>
+                                    @error('reply')
+                                    <span class="text-danger fs-13"></span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end align-items-center">
+                            @if((request()->cookie('id')))
+                            <div class="rounded-circle bg-secondary fs-16 text-center text-dark font-weight-bold" style="width: 36px; height: 36px; padding-top: 0.45rem">
+                                {{strtoupper(substr(request()->cookie('fullname'),0,1))}}
+                            </div>
+                            @endif
+                            <span class="fs-16 mx-3 font-weight-bold">{{request()->cookie('fullname')}}</span>
+                            <button type="submit" class="rounded border-0 py-2 px-4 fs-14 btn-primary">Gửi</button>
+                        </div>
+                    </form>
+                `;
+            // Ẩn tất cả các form-reply có class khác và không có class là form-reply-{id}
+            $('.form-reply').not('.form-reply-' + id).hide();
+
+            // Thêm form vào div có class là form-reply và hiển thị nó
+            $('.form-reply-' + id).html(formHtml).show();
+        });
+
+    })
+</script>
 </body>
 
 </html>

@@ -40,12 +40,12 @@
                     </div>
                     <!-- From -->
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-5">
                             <div class="fs-20 text-dark mb-3">Ý kiến ({{$comments ? count($comments) : 0}})</div>
                             <form class="form-contact contact_form mb-80" id="comment-news" novalidate="novalidate" data-id="{{$new->id_news}}">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="form-group">
+                                        <div class="mb-3">
                                             <textarea class="form-control w-100 open-modal-comment" name="comment" id="message" style="height: 30px;" placeholder="Chia sẻ ý kiến"></textarea>
                                             <span class="text-danger fs-13 error-comment"></span>
                                         </div>
@@ -54,13 +54,99 @@
                                 <div class="d-flex justify-content-end align-items-center">
                                     @if((request()->cookie('id')))
                                     <div class="rounded-circle bg-secondary fs-16 text-center text-dark font-weight-bold" style="width: 36px; height: 36px; padding-top: 0.45rem">
-                                    {{strtoupper(substr(request()->cookie('fullname'),0,1))}}
+                                        {{strtoupper(substr(request()->cookie('fullname'),0,1))}}
                                     </div>
                                     @endif
                                     <span class="fs-16 mx-3 font-weight-bold">{{request()->cookie('fullname')}}</span>
                                     <button type="submit" class="rounded border-0 py-2 px-4 fs-14 btn-primary">Gửi</button>
                                 </div>
                             </form>
+                        </div>
+                        <div class="col-lg-7 pl-5">
+                            <div class="fs-20 text-dark mb-3">Bình luận về bài viết</div>
+                            @foreach($comments as $key => $comment)
+                            @if($comment->id_reply == 0)
+                            <div class="d-flex flex-start mb-3">
+                                <!-- <img class="rounded-circle shadow-1-strong mr-2" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="30" height="30" /> -->
+                                <div class="rounded-circle fs-16 bg-primary text-center mr-2 text-white font-weight-bold pt-1" style="width:30px; height:30px;">
+                                    @foreach($customers as $customer)
+                                    @if($customer->id_user == $comment->id_user)
+                                    {{substr($customer->fullname_user,0,1)}}
+                                    @endif
+                                    @endforeach
+                                </div>
+                                <div class="flex-grow-1 flex-shrink-1">
+                                    <div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="fs-16 ">
+                                                @foreach($customers as $customer)
+                                                @if($customer->id_user == $comment->id_user)
+                                                {{$customer->fullname_user}}
+                                                @endif
+                                                @endforeach
+                                            </span>
+                                            <div class="mx-2 ">-</div>
+                                            <span class="fs-16 ">{{date('d-m-Y',strtotime($comment->created_at))}}</span>
+                                        </div>
+                                        <div class="card">
+                                            <span class="fs-16 text-dark px-3 py-2">
+                                                {{$comment->comment}}
+                                            </span>
+                                        </div>
+                                        @if($comment->id_user != request()->cookie('id'))
+                                        <div class="d-flex justify-content-end mt-1 reply-comment" data-id="{{$comment->id_comment}}">
+                                            <span class="fs-13 cursor-pointer">Phản hồi</span>
+                                        </div>
+                                        <div class="form-reply form-reply-{{$comment->id_comment}} ">
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <!-- lay cau tra loi cua qtv -->
+                                    @foreach($comments as $key => $reply)
+                                    @if($reply->id_reply == $comment->id_comment)
+                                    <div class="d-flex flex-start mt-1">
+                                        <div class="rounded-circle fs-16 bg-danger text-center mr-2 text-white pt-1 font-weight-bold" style="width:30px; height:30px;">
+                                            @if($reply->id_user)
+                                            @foreach($customers as $customer)
+                                            @if($customer->id_user == $reply->id_user)
+                                            {{substr($customer->fullname_user,0,1)}}
+                                            @endif
+                                            @endforeach
+                                            @else
+                                            {{substr("QTV",0,1)}}
+                                            @endif
+                                        </div>
+                                        <div class="flex-grow-1 flex-shrink-1">
+                                            <div>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <span class="fs-16 ">
+                                                    @if($reply->id_user)
+                                                    @foreach($customers as $customer)
+                                                    @if($customer->id_user == $reply->id_user)
+                                                    {{$customer->fullname_user}}
+                                                    @endif
+                                                    @endforeach
+                                                    @else
+                                                    Quản trị viên
+                                                    @endif
+                                                    </span>
+                                                    <div class="mx-2 ">-</div>
+                                                    <span class="fs-16 ">{{date('d-m-Y',strtotime($reply->created_at))}}</span>
+                                                </div>
+                                                <div class="card">
+                                                    <span class="fs-16 text-dark px-3 py-2">
+                                                        {{$reply->comment}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>

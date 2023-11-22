@@ -31,13 +31,15 @@
                                         <div class="row">
                                             <div class="col-lg-8">
                                                 <div class="trend-bottom-img mb-30">
-                                                    <img src="{{asset($hot->image_news)}}" alt="" width="520" height="312" loading="lazy">
+                                                    <a href="{{route('news.detail',['slug' => $hot->slug_news])}}">
+                                                        <img src="{{asset($hot->image_news)}}" alt="" width="520" height="330" loading="lazy" class="object-fit-cover">
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="trend-bottom-cap">
-                                                    <h4><a href="details.html" class="fs-20">{{$hot->title_news}}</a></h4>
-                                                    <p style="line-height: normal !important;" class="text-secondary"><a href="details.html" class="text-secondary fs-13">{{$hot->summary_news}}</a></p>
+                                                    <h4><a href="{{route('news.detail',['slug' => $hot->slug_news])}}" class="fs-20">{{$hot->title_news}}</a></h4>
+                                                    <p style="line-height: normal !important;" class="text-secondary"><a href="" class="text-secondary fs-13">{{$hot->summary_news}}</a></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -58,10 +60,12 @@
                         @if($key >= 1)
                         <div class="trand-right-single">
                             <div class="trand-right-img">
-                                <img src="{{asset($hot->image_news)}}" alt="" width="250" height="150" loading="lazy">
+                                <a href="{{route('news.detail',['slug' => $hot->slug_news])}}">
+                                    <img src="{{asset($hot->image_news)}}" alt="" width="250" height="150" loading="lazy" class="object-fit-cover">
+                                </a>
                             </div>
                             <div class="mt-2">
-                                <h4><a href="details.html" class="fs-15">{{$hot->title_news}}</a></h4>
+                                <h4><a href="{{route('news.detail',['slug' => $hot->slug_news])}}" class="fs-15">{{$hot->title_news}}</a></h4>
                             </div>
                         </div>
                         @endif

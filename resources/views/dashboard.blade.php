@@ -21,6 +21,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{$title}}</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
@@ -294,6 +295,32 @@
             let id = $(this).data('id');
             $('.id-comment-update').val(id);
             $('.id-news-update').val($('.news-'+id).data('id'));
+            $('.reply-update').text($('.reply-'+id).text().trim());
+        })
+        $('.choose-parent').on('change',function(e){
+            e.preventDefault();
+            let choose = $(this).val();
+            $.ajax({
+                method: 'POST',
+                url: "{{route('category.choose')}}",
+                data: {
+                    choose: choose,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data){
+                    // console.log(data);
+                    if(data.res == 'success'){
+                        let arrChild = data.child;
+                        let html = '<option value="">---Chuyên mục---</option>';
+                        arrChild.forEach((child) => {
+                            html += `<option value=${child.id_category}>${child.name_category}</option>`;
+                        })
+                        $('.list-child').html(html);
+                    }
+                }
+            })
         })
     });
     function myToggle(){
