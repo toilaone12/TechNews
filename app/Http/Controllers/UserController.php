@@ -105,7 +105,7 @@ class UserController extends Controller
             if($delete){
                 if($isMe || $id == $user->id_admin){
                     Cookie::queue(Cookie::forget('username'));
-                    Cookie::queue(Cookie::forget('id'));;
+                    Cookie::queue(Cookie::forget('id_admin'));;
                     return redirect()->route('admin.login');
                 }else{
                     return redirect()->route('user.list')->with('message','<div class="alert alert-success alert-dismissible">Xóa thành công!</div>');

@@ -98,4 +98,10 @@ Route::prefix('admin')->group(function(){
         Route::post('/save',[UserController::class,'save'])->name('user.save');
         Route::post('/change',[UserController::class,'change'])->name('user.change');
     });
+    //Comment
+    Route::prefix('comment')->group(function(){
+        Route::get('/list',[CommentController::class,'list'])->name('comment.list');
+        Route::post('/edit',[CommentController::class,'edit'])->name('comment.edit');
+        Route::post('/reply',[CommentController::class,'reply'])->name('comment.reply');
+    });
 });

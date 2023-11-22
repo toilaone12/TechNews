@@ -43,7 +43,7 @@ class AdminController extends Controller
         $signIn = Admin::where('username',$username)->where('password',$password)->first();
         if($signIn){
             Cookie::queue('username',$username);
-            Cookie::queue('id',$signIn->id_admin);
+            Cookie::queue('id_admin',$signIn->id_admin);
             return redirect()->route('admin.dashboard');
         }else{
             return redirect()->route('admin.login')->with('error','Sai tài khoản hoặc mật khẩu');
@@ -51,7 +51,7 @@ class AdminController extends Controller
     }
     public function logout(){
         Cookie::queue(Cookie::forget('username'));
-        Cookie::queue(Cookie::forget('id'));;
+        Cookie::queue(Cookie::forget('id_admin'));;
         return redirect()->route('admin.login');
     }
 }

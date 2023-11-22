@@ -142,7 +142,7 @@
                         <ul class="cate-none-4" id="sub-cate--toggle4">
                             <li class="sub-cate">
                                 <i class="fa-solid fa-list" style="font-size: 20px"></i>
-                                <a class="sub-cate--title" href="">Danh sách</a>
+                                <a class="sub-cate--title" href="{{route('comment.list')}}">Danh sách</a>
                             </li>    
                         </ul>
                     </li>
@@ -284,6 +284,16 @@
             html += `<option value="0" ${!level ? 'selected' : ''}>Quản trị viên</option>`
             html += `<option value="1" ${level ? 'selected' : ''}>Nhân viên</option>`
             $('.list-role').html(html);
+        })
+        $('.reply-comment').on('click',function(){
+            let id = $(this).data('id');
+            $('.id-comment-reply').val(id);
+            $('.id-news-reply').val($('.news-'+id).data('id'));
+        })
+        $('.update-comment').on('click',function(){
+            let id = $(this).data('id');
+            $('.id-comment-update').val(id);
+            $('.id-news-update').val($('.news-'+id).data('id'));
         })
     });
     function myToggle(){
