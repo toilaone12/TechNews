@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row d-flex justify-content-between py-2 border-bottom">
                 <div class="col-lg-12 d-flex align-items-center">
-                    <span class="fs-27 cursor-pointer font-weight-bold text-dark">Từ khóa: {{$tag->title_tag}}</span>
+                    <span class="fs-27 cursor-pointer font-weight-bold text-dark">Từ khóa tìm kiếm: {{$title}}</span>
                 </div>
             </div>
             <div class="row mt-4">

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
 {
@@ -140,5 +141,76 @@ class CustomerController extends Controller
             return redirect()->route('page.home');
         }
     
+    }
+
+    public function forget(Request $request){
+        $data = $request->all();
+        $email = $data['email'];
+        $customer = Customer::where('email_user',$email)->first();
+        if($customer){
+            $titleMail = 'Thay đổi mật khẩu';
+            $dataMail = [
+                'email' => $email,
+                'link' => "http://127.0.0.1:8000/page/customer/edit?id=".$customer->id_user,
+            ];
+            // dd($dataMail);
+            $mail = Mail::send('mail.forget',$dataMail,function($message) use ($titleMail,$email){
+                $message->to($email)->subject($titleMail);
+                $message->from($email,$titleMail);
+            });
+            return response()->json(['res' => 'success']);
+        }else{
+            return response()->json(['res' => 'error','email' => 'Email không tồn tại, vui lòng kiểm tra lại email']);
+        }
+    }
+
+    public function edit(Request $request){
+        $id = $request->get('id');
+        $customer = Customer::find($id);
+        $title = 'Thay đổi mật khẩu';
+        $parents = Category::where('id_parent',0)->get();
+        $childs = Category::where('id_parent','!=',0)->get();
+        $arr = [];
+        foreach($parents as $parent){
+            $arrChild = [];
+            foreach($childs as $child){
+                if($child->id_parent == $parent->id_category){
+                    // $one = $child->name_category;
+                    $arrChild[] = [
+                        'slug' => $child->slug_category,
+                        'name' => $child->name_category,
+                    ];
+                }
+            }
+            $arrParent = [
+                'slug' => $parent->slug_category,
+                'name' => $parent->name_category,
+            ];
+            $arr[] = [
+                'parent' => $arrParent,
+                'child' => $arrChild,
+            ];
+        }
+        return view('customer.forget',compact('title','customer','parents','childs','arr'));
+    }
+
+    public function update(Request $request){ //doi mat khau
+        $data = $request->all();
+        Validator::make($data,[
+            'password' => ['regex:/^[A-Za-z0-9]{6,32}+$/'],
+            'repassword' => ['same:password','regex: /^[A-Za-z0-9]{6,32}+$/']
+        ],[
+            'password.regex' => 'Mật khẩu bắt buộc phải từ 6 đến 32 ký tự',
+            'repassword.regex' => 'Mật khẩu bắt buộc phải từ 6 đến 32 ký tự',
+            'repassword.same' => 'Hai mật khẩu phải giống nhau',
+        ])->validate();
+        $customer = Customer::find($data['id']);
+        $customer->password_user = $data['password'] ? md5($data['password']) : $customer->password_user;
+        $update = $customer->save();
+        if($update){
+            return redirect()->route('customer.edit',['id' => $data['id']])->with('message','<div class="alert alert-success alert-dismissible">Thay đổi mật khẩu thành công!</div>');
+        }else{
+            return redirect()->route('customer.edit',['id' => $data['id']])->with('message','<div class="alert alert-danger alert-dismissible">Lỗi truy vấn!</div>');
+        }
     }
 }

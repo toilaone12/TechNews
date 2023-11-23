@@ -228,5 +228,37 @@ class NewsController extends Controller
         // dd($parentNews);
         return view('news.details',compact('title','arr','new','relates','childNews','parentNews','dateCreated','mostViewsNews','arrTags','comments','customers'));
     }
+
+    public function search(Request $request){
+        $keyword = $request->get('search');
+        $title = $keyword;
+        $news = News::where('title_news','like','%'.$keyword.'%')->paginate(10);
+        $parents = Category::where('id_parent',0)->get();
+        $childs = Category::where('id_parent','!=',0)->get();
+        $differentNews = News::where('title_news','not like','%'.$keyword.'%')->orderBy('id_news','desc')->limit(5)->get();
+        $arr = [];
+        foreach($parents as $parent){
+            $arrChild = [];
+            foreach($childs as $child){
+                if($child->id_parent == $parent->id_category){
+                    // $one = $child->name_category;
+                    $arrChild[] = [
+                        'slug' => $child->slug_category,
+                        'name' => $child->name_category,
+                    ];
+                }
+            }
+            $arrParent = [
+                'slug' => $parent->slug_category,
+                'name' => $parent->name_category,
+            ];
+            $arr[] = [
+                'parent' => $arrParent,
+                'child' => $arrChild,
+            ];
+        }
+        $arr = collect($arr);
+        return view('news.search',compact('news','title','arr','parents','childs','differentNews'));
+    }
 }
 

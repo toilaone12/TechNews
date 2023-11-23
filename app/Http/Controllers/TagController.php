@@ -86,6 +86,7 @@ class TagController extends Controller
         // dd($news);
         $parents = Category::where('id_parent',0)->get();
         $childs = Category::where('id_parent','!=',0)->get();
+        $differentNews = News::where('tag_news','not like','%'.$tag->id_tag.'%')->orderBy('id_news','desc')->limit(5)->get();
         $arr = [];
         foreach($parents as $parent){
             $arrChild = [];
@@ -108,6 +109,6 @@ class TagController extends Controller
             ];
         }
         $arr = collect($arr);
-        return view('tag.home',compact('title','news','arr','parents','childs','tag'));
+        return view('tag.home',compact('title','news','arr','parents','childs','tag','differentNews'));
     }
 }

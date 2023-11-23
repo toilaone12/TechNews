@@ -56,22 +56,32 @@
                                     <a href="{{route('page.home')}}"><img src="{{asset('frontend/image/logo.png')}}" alt=""></a>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center">
-                                @if(request()->cookie('id'))
-                                <span class="rounded-circle border fs-18 mr-2 text-center pt-1" style="width: 36px; height: 36px;">
-                                    {{strtoupper(substr(request()->cookie('fullname'),0,1))}}
-                                </span>
-                                <span class="fs-17 cursor-pointer" type="button" id="setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{request()->cookie('fullname')}}
-                                </span>
-                                <div class="dropdown-menu mt-3" aria-labelledby="setting">
-                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="{{route('customer.setting')}}">Thông tin chung</a>
-                                    <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="{{route('customer.logout')}}">Đăng xuất</a>
+                            <div class="d-flex align-items-center justify-content-between" style="width: 150px;">
+                                <div class="d-flex align-items-center">
+                                    @if(request()->cookie('id'))
+                                    <span class="rounded-circle border fs-18 mr-2 text-center pt-1" style="width: 36px; height: 36px;">
+                                        {{strtoupper(substr(request()->cookie('fullname'),0,1))}}
+                                    </span>
+                                    <span class="fs-17 cursor-pointer" type="button" id="setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{request()->cookie('fullname')}}
+                                    </span>
+                                    <div class="dropdown-menu mt-3 left-100" aria-labelledby="setting">
+                                        <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="{{route('customer.setting')}}">Thông tin chung</a>
+                                        <a class="dropdown-item py-2 px-3 fs-15 border-bottom" href="{{route('customer.logout')}}">Đăng xuất</a>
+                                    </div>
+                                    @else
+                                    <i class="rounded-circle border fa-regular fa-user fs-18 mr-2 text-center pt-2" style="width: 36px; height: 36px;"></i>
+                                    <span class="fs-17 cursor-pointer open-login">Đăng nhập</span>
+                                    @endif
                                 </div>
-                                @else
-                                <i class="rounded-circle border fa-regular fa-user fs-18 mr-2 text-center pt-2" style="width: 36px; height: 36px;"></i>
-                                <span class="fs-17 cursor-pointer open-login">Đăng nhập</span>
-                                @endif
+                                <div class="search">
+                                    <i class="fa-solid fa-search fs-18 text-secondary" type="button" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                    <form action="{{route('news.search')}}" method="GET">
+                                        <div class="dropdown-menu form-group mt-3 py-0 rounded left-100" aria-labelledby="search">
+                                            <input type="search" name="search" class="form-control" placeholder="Tìm kiếm" id="">
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -246,6 +256,7 @@
                                     <input type="password" class="form-control" id="loginPassword" name="password" required>
                                 </div>
                                 <button type="submit" class="rounded border-0 py-2 px-5 fs-16 btn-primary m-auto d-block">Đăng nhập</button>
+                                <a class="forget-pass text-danger fs-13 text-center m-auto d-block pt-2 cursor-pointer">Quên mật khẩu?</a>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
@@ -279,6 +290,29 @@
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="forgot" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <div class="fs-16 text-secondary">Quên mật khẩu</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="message-forget fs-13 alert alert-success d-none">Vui lòng kiểm tra mail của bạn để đổi mật khẩu</div>
+                <div class="modal-body pt-0">
+                    <form class="find-email">
+                        <div class="mb-4 form-group">
+                            <label for="registerEmail" class="fs-14">Nhập email</label>
+                            <input type="email" class="form-control" name="email" id="registerEmail" aria-describedby="emailHelp" required>
+                            <span class="fs-13 text-danger error-find-email"></span>
+                        </div>
+                        <button type="submit" class="rounded border-0 py-2 px-5 fs-16 btn-primary m-auto d-block">Xác nhận</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -402,6 +436,39 @@
                 }
             })
         })
+        $('.forget-pass').on('click', function() {
+            $('#comment').modal('hide');
+            $('#forgot').modal('show');
+        })
+        $('.find-email').on('submit',function(e){
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            $.ajax({
+                method: 'POST',
+                url: '{{route("customer.forget")}}',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data);
+                    if (data.res == 'error') {
+                        $('.error-find-email').text(data.email);
+                  
+                    } else {
+                        if ($('.error-find-email').text() != '' ) {
+                            $('.error-find-email').text('');
+                        }
+                        $('.message-forget').removeClass('d-none');
+                    }
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+        })
     })
 </script>
 @endif
@@ -439,11 +506,12 @@
         })
         $('.reply-comment').on('click', function() {
             let id = $(this).data('id');
+            let idNews = $(this).data('news');
             // Tạo HTML của form phản hồi
             let formHtml = `
                     <form class="contact_form" action="{{route('comment.reply')}}" method="POST" novalidate="novalidate">
                         @csrf
-                        <input type="hidden" name="id_news" value="${"{{$new->id_news}}"}">
+                        <input type="hidden" name="id_news" value="${idNews}">
                         <input type="hidden" name="id" value="${id}">
                         <input type="hidden" name="id_user" value="${"{{(request()->cookie('id'))}}"}">
                         <input type="hidden" name="is_page" value="1">
@@ -474,7 +542,6 @@
             // Thêm form vào div có class là form-reply và hiển thị nó
             $('.form-reply-' + id).html(formHtml).show();
         });
-
     })
 </script>
 </body>

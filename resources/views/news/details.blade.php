@@ -94,7 +94,7 @@
                                             </span>
                                         </div>
                                         @if($comment->id_user != request()->cookie('id'))
-                                        <div class="d-flex justify-content-end mt-1 reply-comment" data-id="{{$comment->id_comment}}">
+                                        <div class="d-flex justify-content-end mt-1 reply-comment" data-id="{{$comment->id_comment}}" data-news="{{$comment->id_news}}">
                                             <span class="fs-13 cursor-pointer">Phản hồi</span>
                                         </div>
                                         <div class="form-reply form-reply-{{$comment->id_comment}} ">

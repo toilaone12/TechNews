@@ -29,6 +29,10 @@ Route::prefix('page')->group(function(){
     Route::get('/', [HomeController::class, 'index'])->name('page.home');
     Route::prefix('news')->group(function(){
         Route::get('/{slug}',[NewsController::class,'detail'])->name('news.detail');
+        Route::get('/search',[NewsController::class,'search'])->name('news.search');
+    });
+    Route::prefix('search')->group(function(){
+        Route::get('/',[NewsController::class,'search'])->name('news.search');
     });
     Route::prefix('category')->group(function(){
         Route::get('/{slug}',[CateController::class,'category'])->name('category.allCategory');
@@ -40,9 +44,12 @@ Route::prefix('page')->group(function(){
         Route::post('/login',[CustomerController::class,'login'])->name('customer.login');
         Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
         Route::post('/change',[CustomerController::class,'change'])->name('customer.change');
+        Route::post('/update',[CustomerController::class,'update'])->name('customer.update');
         Route::get('/setting',[CustomerController::class,'setting'])->name('customer.setting');
         Route::get('/delete',[CustomerController::class,'delete'])->name('customer.delete');
         Route::get('/logout',[CustomerController::class,'logout'])->name('customer.logout');
+        Route::get('/edit',[CustomerController::class,'edit'])->name('customer.edit');
+        Route::post('/forget',[CustomerController::class,'forget'])->name('customer.forget');
     });
     Route::prefix('comment')->group(function(){
         Route::post('/comment',[CommentController::class,'comment'])->name('comment.comment');
